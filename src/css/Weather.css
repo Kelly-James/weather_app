@@ -4,3 +4,10 @@ i {
     top: 25%;
     font-size: 100px;
 }
+
+.weatherFrame {
+    color: rgba(186, 230, 250, 0.818);
+    left: 210px;
+    position: absolute;
+    top: 35px;
+}

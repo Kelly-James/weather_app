@@ -1,4 +1,5 @@
 .navContainer {
+    /* color: rgba(186, 230, 250, 0.818); */
     left: 0;
     position: absolute;
     top: 0;
@@ -51,4 +52,16 @@
 
 .btnLine3 {
     top: 14px;
+}
+
+h2 {
+    color: rgba(186, 230, 250, 0.818);
+    display: inline-block;
+    margin: 0 10px;
+}
+
+select {
+    display: inline block;
+    margin: 10px;
+    width: 200px;
 }
