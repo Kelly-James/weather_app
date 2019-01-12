@@ -1,0 +1,54 @@
+.navContainer {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.nav {
+    background: rgba(14, 177, 252, 0.818);
+    height: 35px;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+.menuBtnFrame {
+    background: rgba(75, 133, 160, 0.818);
+    left: 5px; 
+    max-height: 25px;
+    min-height: 25px;
+    max-width: 25px; 
+    min-width: 25px; 
+    position: relative;
+    top: 3px;
+}
+
+.menuBtnFrame:hover {
+    background: rgba(186, 230, 250, 0.818);
+    cursor: pointer;
+}
+
+.menuBtnLine {
+    background: rgba(186, 230, 250, 0.818);
+    min-height: 2px;
+    margin: 4px;
+    position: absolute;
+    width: 17px;
+}
+
+.menuBtnFrame:hover .menuBtnLine {
+    background: rgba(75, 133, 160, 0.818);
+    cursor: pointer;
+}
+
+.btnLine1 {
+    top: 1px;
+}
+
+.btnLine2 {
+    top: 7.5px;
+}
+
+.btnLine3 {
+    top: 14px;
+}
