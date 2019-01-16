@@ -7,6 +7,8 @@ class App extends Component {
 
   state = {
     main: {
+      humidity: null,
+      pressure: null,
       temp: null,
       temp_max: null,
       temp_min: null
@@ -39,12 +41,34 @@ class App extends Component {
   }
 
   dissectData = (responseData) => {
-    this.setState( { 
-      main: { ...this.state.main, temp: responseData.main.temp },
-      sys: { ...this.state.sys, sunrise: responseData.sys.sunrise }, 
-      weather: { ...this.state.weather, description: responseData.weather[0].description },
-      wind: { ...this.state.wind, deg: responseData.wind.deg }
-    });
+    let main = { ...this.state.main };
+    main = {
+      humidity: responseData.main.humidity,
+      pressure: responseData.main.pressure,
+      temp: responseData.main.temp,
+      temp_max: responseData.main.temp_max,
+      temp_min: responseData.main.temp_min
+    };
+
+    let sys = { ...this.state.sys };
+    sys = { 
+      sunrise: responseData.sys.sunrise,
+      sunset: responseData.sys.sunset
+    };
+
+    let weather = { ...this.state.weather };
+    weather = {
+      description: responseData.weather[0].description,
+      main: responseData.weather[0].main
+    };
+
+    let wind = { ...this.state.wind }
+    wind = { 
+      deg: responseData.wind.deg,
+      speed: responseData.wind.speed
+    };
+
+    this.setState({ main, sys, weather, wind });
   }
   
   render() {
