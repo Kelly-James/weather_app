@@ -15,12 +15,12 @@
 
 .menuBtnFrame {
     background: rgba(75, 133, 160, 0.818);
-    left: 5px; 
     max-height: 25px;
     min-height: 25px;
     max-width: 25px; 
     min-width: 25px; 
-    position: relative;
+    position: absolute;
+    right: 10px; 
     top: 3px;
 }
 
@@ -56,12 +56,8 @@
 
 h2 {
     color: rgba(186, 230, 250, 0.818);
-    display: inline-block;
-    margin: 0 10px;
+    display: block;
+    line-height: 17px;
+    margin: 10px;
 }
 
-select {
-    display: inline block;
-    margin: 10px;
-    width: 200px;
-}

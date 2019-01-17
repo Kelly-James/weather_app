@@ -6,8 +6,12 @@ i {
 }
 
 .weatherFrame {
+    border: 2px solid white;
     color: rgba(186, 230, 250, 0.818);
-    left: 210px;
+    height: 75%;
+    margin: 10px;
+    /* left: 10px; */
     position: absolute;
     top: 35px;
+    width: 75%;
 }

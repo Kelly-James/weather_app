@@ -2,7 +2,7 @@
     /* background-color: rgba(81, 56, 94, 0.5); */
     /* height: 100%; */
     color: rgba(186, 230, 250, 0.818);
-    left: 0;
+    right: 0;
     max-height: 50%;
     overflow-y: hidden;
     position: fixed;
@@ -10,10 +10,19 @@
     transition-property: all;
     transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     top: 35px;
-    width: 20%;
+    /* width: 20%; */
 }
 
 .menuContainer.closed {
     max-height: 0%;
 }
 
+select {
+    display: inline-block;
+    margin: 10px;
+    width: 200px;
+}
+
+button {
+    margin: 10px;
+}
