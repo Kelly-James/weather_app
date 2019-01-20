@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
 import Menu from './Menu';
 import Nav from './Nav';
-import Weather from './Weather';
+import WeatherContainer from './WeatherContainer';
 import '../css/App.css';
 
+const apiKey = require("../keys/api-key.json");
+
 class App extends Component {
+
   state = {
-    userCoords: {
+    locInfo: {
       lat: null,
-      lon: null
+      lon: null,
+      name: null
     },
-    main: {
+    temp: {
       humidity: null,
       pressure: null,
       temp: null,
       temp_max: null,
       temp_min: null
     },
-    sys: {
+    sun: {
       sunrise: null,
       sunset: null
     },
@@ -37,7 +41,6 @@ class App extends Component {
     this.getUserCoordinates();
   }
 
-  
   getUserCoordinates = () => {
     let options = { enableHighAccuracy: true };
     let error = (err) => {
@@ -46,37 +49,47 @@ class App extends Component {
   
     let success = (pos) => {
       let crd = pos.coords;
-      let userCoords = { ...this.state.userCoords };
-      userCoords = {
+      let locInfo = { ...this.state.locInfo };
+      locInfo = {
         lon: crd.longitude,
-        lat: crd.latitude
+        lat: crd.latitude,
+        name: null
       }
-      this.setState({ userCoords });
-  
-      console.log("Your current position is:");
-      console.log(`Latitude : ${crd.latitude}`);
-      console.log(`Longitude: ${crd.longitude}`);
-      console.log(`More or less ${crd.accuracy} meters.`);
+      
+      this.setState({ locInfo }, () => {
+          this.fetchWeatherDataAuto()
+      });
     };
 
     navigator.geolocation.getCurrentPosition(success, error, options);
   };
 
-  fetchWeatherData = cityId => {
-    const apiKey = require("../keys/api-key.json");
-    fetch(
-      `http://api.openweathermap.org/data/2.5/weather?id=${cityId}&APPID=${apiKey.api_key}`
-    )
-      // fetch(`http://api.openweathermap.org/data/2.5/weather?lat=9.74&lon=-82.85&APPID=${apiKey.api_key}`)
-      // fetch(`http://api.openweathermap.org/data/2.5/forecast?id=${cityId}&APPID=${apiKey.api_key}`)
+  fetchWeatherDataAuto = () => {
+    let lat = this.state.locInfo.lat;
+    let lon = this.state.locInfo.lon;
+    fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${apiKey.openWeather_key}`)
       .then(response => response.json())
-      .then(response => console.log("Weather Response: ", response))
-      .then(response => this.dissectData(response));
+      // .then(response => console.log("Weather Response: ", response));
+      .then(response => this.spreadStateData(response));
+  }
+
+  fetchWeatherDataManual = cityId => {
+    fetch(`http://api.openweathermap.org/data/2.5/weather?id=${cityId}&APPID=${apiKey.openWeather_key}`)
+      .then(response => response.json())
+      // .then(response => console.log("Weather Response: ", response))
+      .then(response => this.spreadStateData(response));
   };
 
-  dissectData = responseData => {
-    let main = { ...this.state.main };
-    main = {
+  spreadStateData = responseData => {
+    let locInfo = { ...this.state.locInfo }
+    locInfo = {
+      lat: responseData.coord.lat,
+      lon: responseData.coord.lon,
+      name: responseData.name
+    }
+
+    let temp = { ...this.state.temp };
+    temp = {
       humidity: responseData.main.humidity,
       pressure: responseData.main.pressure,
       temp: responseData.main.temp,
@@ -84,8 +97,8 @@ class App extends Component {
       temp_min: responseData.main.temp_min
     };
 
-    let sys = { ...this.state.sys };
-    sys = {
+    let sun = { ...this.state.sun };
+    sun = {
       sunrise: responseData.sys.sunrise,
       sunset: responseData.sys.sunset
     };
@@ -102,7 +115,7 @@ class App extends Component {
       speed: responseData.wind.speed
     };
 
-    this.setState({ main, sys, weather, wind });
+    this.setState({ locInfo, temp, sun, weather, wind });
   };
 
   toggleMenu = () => {
@@ -117,11 +130,21 @@ class App extends Component {
   };
 
   render() {
-    return <div>
-        <Nav toggleMenu={this.toggleMenu} />
-        <Weather />
-        <Menu fetchWeatherData={this.fetchWeatherData} />
-      </div>;
+    return (
+      <div>
+          <Nav toggleMenu={this.toggleMenu} />
+          <div className="appContainer">
+            <h2 className="cityName">{this.state.locInfo.name}</h2>
+            <WeatherContainer 
+              fetchWeatherDataAuto={this.fetchWeatherDataAuto}
+              temp={this.state.temp}
+              weather={this.state.weather}
+              wind={this.state.wind} 
+              sun={this.state.sun}/>
+            <Menu fetchWeatherDataManual={this.fetchWeatherDataManual} />
+          </div>
+      </div>
+    );
   }
 }
 

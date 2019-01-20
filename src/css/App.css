@@ -19,3 +19,10 @@ html {
   justify-content: center;
 }
 
+.appContainer {
+  height: 100%;
+  left: 0px;
+  position: absolute;
+  top: 35px;
+  width: 100%;
+}

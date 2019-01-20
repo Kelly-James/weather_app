@@ -1,21 +1,12 @@
 import React from "react";
-import { Countries } from "../data/countries";
+import { populateCountriesDrop, populateCityDrop  } from '../helpers';
 
 import "../css/Menu.css";
 
 class Menu extends React.Component {
 
   componentDidMount() {
-    // Populate country dropdown
-    let countries = Countries;
-    console.log('Countries: ', countries);
-    let countrySelect = document.querySelector('#country-dropdown');
-    countries.forEach(country => {
-      let countryOption = document.createElement('option');
-      countryOption.textContent = country.name;
-      countryOption.value = country.code;
-      countrySelect.append(countryOption);
-    });
+    populateCountriesDrop();
   }
 
   // Populate city dropdown on Country select
@@ -43,13 +34,13 @@ class Menu extends React.Component {
   handleFetchWeather = () => {
     let cityDropdown = document.getElementById('city-dropdown');
     let cityId = cityDropdown.options[cityDropdown.selectedIndex].id;
-    this.props.fetchWeatherData(cityId);
+    this.props.fetchWeatherDataManual(cityId);
   }
 
   render() {
     return <div className="menuContainer closed">
         <div className="menu">
-          <select name="country-dropdown" id="country-dropdown" className="countryDropdown" onChange={this.populateCitySelect}>
+          <select name="country-dropdown" id="country-dropdown" className="countryDropdown" onChange={populateCityDrop}>
             <option value="Choose Country">Choose Country</option>
           </select>
           <select name="city-dropdown" id="city-dropdown" className="cityDropdown">

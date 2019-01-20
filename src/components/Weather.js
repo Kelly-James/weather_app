@@ -1,13 +1,13 @@
 import React from 'react';
-import '../css/Weather.css';
-import '../css/weather-icons.css';
+import '../css/Weather.css'
 
 class Weather extends React.Component {
     render() {
         return (
-            <div>
-                <div className="weatherFrame"></div>
-                <i className="wi wi-day-sunny"></i>
+            <div className="weatherFrame">
+                <h3>Weather Data: </h3>
+                <p>Desc: {this.props.weather.description}</p>
+                <p>Main: {this.props.weather.main}</p>
             </div>
         )
     }

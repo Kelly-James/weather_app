@@ -1,0 +1,63 @@
+i {
+    left: 25%;
+    position: absolute;
+    top: 25%;
+    font-size: 100px;
+}
+
+.gridCell1 {
+    grid-area: a;
+    /* width: 30%; */
+}
+
+.gridCell2 {
+    grid-area: b;
+    /* width: 50%; */
+}
+
+.gridCell3 {
+    grid-area: c;
+    /* width: 20%; */
+}
+
+.gridCell4 {
+    grid-area: d;
+    /* width: 20%; */
+}
+
+.weatherGrid {
+    column-gap: 5px;
+    display: grid;
+    grid-template-areas: 
+        "a b c"
+        "a b c"
+        "a b d";
+    grid-template-columns: 3 1fr;
+    /* grid-auto-rows: minmax(auto); */
+    height: 100%;
+    /* width: 100%; */
+}
+
+.frame {
+    border: 2px solid white;
+    color: rgba(186, 230, 250, 0.818);
+    height: 75%;
+    margin: 10px;
+    /* left: 10px; */
+    padding: 10px;
+    position: absolute;
+    top: 35px;
+    width: 75%;
+}
+
+.weatherWidget {
+    border: 1px solid rgb(0, 0, 0);
+    color: rgba(186, 230, 250);
+    /* display: inline-block; */
+    /* left: 10px; */
+    /* margin: 20px; */
+    padding: 10px;
+    /* position: relative; */
+    /* top: 10px; */
+    /* width: 33%; */
+}
