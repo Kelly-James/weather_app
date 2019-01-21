@@ -89,6 +89,8 @@ class App extends Component {
       .then(response => this.spreadStateData(response));
   };
 
+
+  // TODO: Dissect new incoming data
   spreadStateData = responseData => {
     let locInfo = { ...this.state.locInfo }
     locInfo = {
