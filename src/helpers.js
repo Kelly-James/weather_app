@@ -4,7 +4,6 @@ const cities = require("./data/city.list.json");
 // Populate country dropdown on component load
 export function populateCountriesDrop() {
     let countries = Countries;
-    console.log('Countries: ', countries);
     let countrySelect = document.querySelector('#country-dropdown');
     countries.forEach(country => {
         let countryOption = document.createElement('option');
