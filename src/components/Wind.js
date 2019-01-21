@@ -18,11 +18,8 @@ class Wind extends React.Component {
     render() {
         return <div className="windFrame">
             <h3>Wind Data: </h3>
-            <p>Deg: {this.props.wind.deg}</p>
-            <p>Speed: {this.props.wind.speed}</p>
-            <i className="wi wi-wind compass"></i>
-            {/* <div className="compass"> */}
-            {/* </div> */}
+            <p>Bearing: {this.props.wind.windBearing}</p>
+            <p>Speed: {this.props.wind.windSpeed}</p>
           </div>;
     }
 }

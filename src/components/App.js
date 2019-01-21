@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import update from "immutability-helper";
 import Menu from './Menu';
 import Nav from './Nav';
 import WeatherContainer from './WeatherContainer';
+import { toggleMenu, convertUNIXTime } from '../helpers';
+
 import '../css/App.css';
 
 const apiKey = require("../keys/api-key.json");
@@ -10,43 +13,52 @@ class App extends Component {
 
   state = {
     locInfo: {
+      cityName: null,
+      countryName: null,
+      formattedAddress: null,
       lat: null,
       lon: null,
+      provName: null,
       timezone: null
     },
-    temp: {
+    temperature: {
+      apparentTemperature: null,
+      dewPoint: null,
       humidity: null,
       pressure: null,
-      temp: null,
-      temp_max: null,
-      temp_min: null
+      temperature: null
     },
     sun: {
       sunrise: null,
       sunset: null
     },
     weather: {
-      description: null,
-      main: null
+      icon: null,
+      ozone: null,
+      precipIntensity: null,
+      precipProbibility: null,
+      precipType: null,
+      pressure: null,
+      summary: null,
+      uvIndex: null,
+      visibility: null
     },
     wind: {
-      deg: null,
-      speed: null
-    },
-    menuOpen: false
+      windBearing: null,
+      windGust: null,
+      windSpeed: null
+    }
   };
 
   componentDidMount() {
     console.log("App Mounted..");
     this.getUserCoordinates();
+    this.fetchWeatherDataAuto();
   }
 
   getUserCoordinates = () => {
     let options = { enableHighAccuracy: true };
-    let error = (err) => {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    };
-  
+    
     let success = (pos) => {
       let crd = pos.coords;
       let locInfo = { ...this.state.locInfo };
@@ -55,13 +67,16 @@ class App extends Component {
         lat: crd.latitude,
         timezone: null
       }
-      
+
       this.setState({ locInfo }, () => {
-          this.fetchWeatherDataAuto()
-          this.fetchGeoLocation(this.state.locInfo);
+        this.fetchGeoLocation(locInfo);
       });
     };
 
+    let error = (err) => {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    };
+      
     navigator.geolocation.getCurrentPosition(success, error, options);
   };
 
@@ -69,8 +84,9 @@ class App extends Component {
     let lat = coords.lat;
     let lon = coords.lon;
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${apiKey.google_key}`)
-      // .then(response => response.json())
-      .then(response => console.log("Google Response: ", response));
+      .then(response => response.json())
+      // .then(response => console.log("Google Response: ", response));
+      .then(response => this.setGeoState(response));
   }
 
   fetchWeatherDataAuto = () => {
@@ -79,34 +95,48 @@ class App extends Component {
     fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}`)
       .then(response => response.json())
       // .then(response => console.log("Weather Response: ", response.latitude));
-      .then(response => this.spreadStateData(response));
+      .then(response => this.setWeatherState(response));
   }
 
-  fetchWeatherDataManual = cityId => {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?id=${cityId}&APPID=${apiKey.openWeather_key}`)
+  fetchWeatherDataManual = () => {
+    let lat = this.state.locInfo.lat;
+    let lon = this.state.locInfo.lon;
+    fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}`)
       .then(response => response.json())
       // .then(response => console.log("Weather Response: ", response))
-      .then(response => this.spreadStateData(response));
+      .then(response => this.setWeatherState(response));
   };
 
+  setGeoState = responseData => {
+    console.log("GeoStateFunc: ", responseData.results);
+    let locInfo = { ...this.state.locInfo };
+    locInfo = update(this.state.locInfo, 
+      {$merge: {
+        cityName: responseData.results[1].address_components[0].long_name,
+        countryName: responseData.results[1].address_components[2].long_name,
+        formattedAddress: responseData.results[1].formatted_address,
+        provName: responseData.results[1].address_components[1].long_name,
+      }
+    })
+    this.setState({ locInfo });
+  }
 
-  // TODO: Dissect new incoming data
-  spreadStateData = responseData => {
-    let locInfo = { ...this.state.locInfo }
-    locInfo = {
-      lat: responseData.latitude,
-      lon: responseData.longitude,
-      timezone: responseData.timezone
-    }
+  setWeatherState = responseData => {
+    let locInfo = { ...this.state.locInfo };
+    locInfo = update(this.state.locInfo,
+      {$merge: {
+        timezone: responseData.timezone
+      }
+    });
 
-    // let temp = { ...this.state.temp };
-    // temp = {
-    //   humidity: responseData.main.humidity,
-    //   pressure: responseData.main.pressure,
-    //   temp: responseData.main.temp,
-    //   temp_max: responseData.main.temp_max,
-    //   temp_min: responseData.main.temp_min
-    // };
+    let temperature = { ...this.state.temperature };
+    temperature = {
+      apparentTemperature : responseData.currently.apparentTemperature,
+      dewPoint: responseData.currently.dewPoint,
+      humidity: responseData.currently.humidity,
+      pressure: responseData.currently.pressure,
+      temperature: responseData.currently.temperature,
+    };
 
     // let sun = { ...this.state.sun };
     // sun = {
@@ -114,42 +144,38 @@ class App extends Component {
     //   sunset: responseData.sys.sunset
     // };
 
-    // let weather = { ...this.state.weather };
-    // weather = {
-    //   description: responseData.weather[0].description,
-    //   main: responseData.weather[0].main
-    // };
+    let weather = { ...this.state.weather };
+    weather = {
+      icon: responseData.currently.icon,
+      ozone: responseData.currently.ozone,
+      precipIntensity: responseData.currently.precipIntensity,
+      precipProbibility: responseData.currently.precipProbibility,
+      precipType: responseData.currently.precipType,
+      pressure: responseData.currently.pressure,
+      summary: responseData.currently.summary,
+      uvIndex: responseData.currently.uvIndex,
+      visibility: responseData.currently.visibility
+    };
 
-    // let wind = { ...this.state.wind };
-    // wind = {
-    //   deg: responseData.wind.deg,
-    //   speed: responseData.wind.speed
-    // };
+    let wind = { ...this.state.wind };
+    wind = {
+      windBearing: responseData.currently.windBearing,
+      windGust: responseData.currently.windGust,
+      windSpeed: responseData.currently.windSpeed
+    };
 
-    // this.setState({ locInfo, temp, sun, weather, wind });
-    this.setState({ locInfo });
-  };
-
-  toggleMenu = () => {
-    const menu = document.querySelector(".menuContainer");
-    if (!this.state.menuOpen) {
-      this.setState({ menuOpen: true });
-      menu.classList.remove("closed");
-    } else {
-      this.setState({ menuOpen: false });
-      menu.classList.add("closed");
-    }
+    this.setState({ locInfo, temperature, weather, wind });
   };
 
   render() {
     return (
       <div>
-          <Nav toggleMenu={this.toggleMenu} />
+          <Nav toggleMenu={toggleMenu} />
           <div className="appContainer">
-            <h2 className="cityName">{this.state.locInfo.name}</h2>
+            <h2 className="cityName">{this.state.locInfo.formattedAddress}</h2>
             <WeatherContainer 
               fetchWeatherDataAuto={this.fetchWeatherDataAuto}
-              temp={this.state.temp}
+              temperature={this.state.temperature}
               weather={this.state.weather}
               wind={this.state.wind} 
               sun={this.state.sun}/>

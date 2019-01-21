@@ -25,7 +25,7 @@ class WeatherContainer extends React.Component {
                   <Weather weather={this.props.weather} />
                 </div>
                 <div className="gridCell3 weatherWidget">
-                  <Temp temp={this.props.temp} />
+                  <Temp temperature={this.props.temperature} />
                 </div>
                 <div className="gridCell4 weatherWidget">
                   <Sun sun={this.props.sun} />

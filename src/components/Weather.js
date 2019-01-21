@@ -6,8 +6,8 @@ class Weather extends React.Component {
         return (
             <div className="weatherFrame">
                 <h3>Weather Data: </h3>
-                <p>Desc: {this.props.weather.description}</p>
-                <p>Main: {this.props.weather.main}</p>
+                <p>Summary: {this.props.weather.summary}</p>
+                <p>Icon: {this.props.weather.icon}</p>
             </div>
         )
     }
