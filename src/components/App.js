@@ -53,39 +53,58 @@ class App extends Component {
   componentDidMount() {
     console.log("App Mounted..");
     this.getUserCoordinates();
-    this.fetchWeatherDataAuto();
   }
 
+  // Set user location info state object, once done get weather data and set weather state
+  setUserLocationInfo = () => {
+    let coords = this.getUserCoordinates();
+    let geoLoc = this.fetchGeoLocation(coords);
+    let locInfo = { ...this.state.locInfo };
+    locInfo = {
+      cityName: geoLoc.cityName,
+      countryName: geoLoc.countryName,
+      formattedAddress: geoLoc.formattedAddress,
+      lat: coords.latitude,
+      lon: coords.longitude,
+      provName: geoLoc.provName
+    }
+    this.setState({ locInfo }, () => {
+      this.fetchWeatherDataAuto();
+    })
+  }
+
+  // Get user coordinates and location info
   getUserCoordinates = () => {
-    let options = { enableHighAccuracy: true };
-    
-    let success = (pos) => {
-      let crd = pos.coords;
-      let locInfo = { ...this.state.locInfo };
-      locInfo = {
-        lon: crd.longitude,
-        lat: crd.latitude,
-        timezone: null
-      }
-
-      this.setState({ locInfo }, () => {
-        this.fetchGeoLocation(locInfo);
-      });
-    };
-
-    let error = (err) => {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    };
+      let options = { enableHighAccuracy: true };
       
-    navigator.geolocation.getCurrentPosition(success, error, options);
+      let success = (pos) => {
+        let coords = pos.coords;
+        let locInfo = { ...this.state.locInfo };
+        locInfo = {
+            lon: coords.longitude,
+            lat: coords.latitude,
+            timezone: null
+          }
+          
+        this.setState({ locInfo }, () => {
+            this.fetchGeoLocation(locInfo);
+        });
+      };
+    
+          
+      let error = (err) => {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+      };
+      
+      navigator.geolocation.getCurrentPosition(success, error, options);
   };
 
+  // Fetch GeoLocation data 
   fetchGeoLocation = (coords) => {
     let lat = coords.lat;
     let lon = coords.lon;
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${apiKey.google_key}`)
       .then(response => response.json())
-      // .then(response => console.log("Google Response: ", response));
       .then(response => this.setGeoState(response));
   }
 
@@ -94,21 +113,21 @@ class App extends Component {
     let lon = this.state.locInfo.lon;
     fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}`)
       .then(response => response.json())
-      // .then(response => console.log("Weather Response: ", response.latitude));
       .then(response => this.setWeatherState(response));
   }
 
+  // This function needs to be completely redone.
+  // You will also need to find a more flexible way for users to manually search for weather
   fetchWeatherDataManual = () => {
     let lat = this.state.locInfo.lat;
     let lon = this.state.locInfo.lon;
     fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}`)
       .then(response => response.json())
-      // .then(response => console.log("Weather Response: ", response))
       .then(response => this.setWeatherState(response));
   };
 
+  // Merges the GeoLocation data with the users coordinates ( In state )
   setGeoState = responseData => {
-    console.log("GeoStateFunc: ", responseData.results);
     let locInfo = { ...this.state.locInfo };
     locInfo = update(this.state.locInfo, 
       {$merge: {
@@ -118,9 +137,12 @@ class App extends Component {
         provName: responseData.results[1].address_components[1].long_name,
       }
     })
-    this.setState({ locInfo });
+    this.setState({ locInfo }, () => {
+      this.fetchWeatherDataAuto();
+    });
   }
 
+  // Sets the weather state
   setWeatherState = responseData => {
     let locInfo = { ...this.state.locInfo };
     locInfo = update(this.state.locInfo,
@@ -137,12 +159,6 @@ class App extends Component {
       pressure: responseData.currently.pressure,
       temperature: responseData.currently.temperature,
     };
-
-    // let sun = { ...this.state.sun };
-    // sun = {
-    //   sunrise: responseData.sys.sunrise,
-    //   sunset: responseData.sys.sunset
-    // };
 
     let weather = { ...this.state.weather };
     weather = {
