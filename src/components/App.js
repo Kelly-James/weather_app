@@ -3,14 +3,13 @@ import update from "immutability-helper";
 import Menu from './Menu';
 import Nav from './Nav';
 import WeatherContainer from './WeatherContainer';
-import { toggleMenu, convertUNIXTime } from '../helpers';
+import { toggleMenu } from '../helpers';
 
 import '../css/App.css';
 
 const apiKey = require("../keys/api-key.json");
 
 class App extends Component {
-
   state = {
     locInfo: {
       cityName: null,
@@ -52,62 +51,41 @@ class App extends Component {
 
   componentDidMount() {
     console.log("App Mounted..");
-    this.getUserCoordinates();
+    this.setUserLocationInfo();
   }
 
-  // Still in development - Not currently in use
-  // Set user location info state object, once done get weather data and set weather state
+  // Get user location data and set user location info state object
+  // Once state ( locInfo ) has been updated, fetch weather for users location
   setUserLocationInfo = () => {
-    let coords = this.getUserCoordinates();
-    let geoLoc = this.fetchGeoLocation(coords);
-    let locInfo = { ...this.state.locInfo };
-    locInfo = {
-      cityName: geoLoc.cityName,
-      countryName: geoLoc.countryName,
-      formattedAddress: geoLoc.formattedAddress,
-      lat: coords.latitude,
-      lon: coords.longitude,
-      provName: geoLoc.provName
-    }
-    this.setState({ locInfo }, () => {
-      this.fetchWeatherDataAuto();
-    })
-  }
+    let options = { enableHighAccuracy: true };
 
-  // Get user coordinates and location info
-  getUserCoordinates = () => {
-      let options = { enableHighAccuracy: true };
-      
-      let success = (pos) => {
-        let coords = pos.coords;
-        let locInfo = { ...this.state.locInfo };
-        locInfo = {
-            lon: coords.longitude,
+    let error = err => {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    };
+
+    let success = pos => {
+      let coords = pos.coords;
+      // Fetch GeoLocation data
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.latitude},${coords.longitude}&key=${apiKey.google_key}`)
+        .then(response => response.json())
+        .then(response => {
+          let locInfo = { ...this.state.locInfo };
+          locInfo = {
+            cityName: response.results[1].address_components[0].long_name,
+            countryName: response.results[1].address_components[2].long_name,
+            formattedAddress: response.results[1].formatted_address,
             lat: coords.latitude,
-            timezone: null
-          }
-          
-        this.setState({ locInfo }, () => {
-            this.fetchGeoLocation(locInfo);
+            lon: coords.longitude,
+            provName: response.results[1].address_components[1].long_name
+          };
+          this.setState({ locInfo }, () => {
+            this.fetchWeatherDataAuto();
+          });
         });
-      };
-    
-          
-      let error = (err) => {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
-      };
-      
-      navigator.geolocation.getCurrentPosition(success, error, options);
-  };
+    };
 
-  // Fetch GeoLocation data 
-  fetchGeoLocation = (coords) => {
-    let lat = coords.lat;
-    let lon = coords.lon;
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${apiKey.google_key}`)
-      .then(response => response.json())
-      .then(response => this.setGeoState(response));
-  }
+    navigator.geolocation.getCurrentPosition(success, error, options);
+  };
 
   fetchWeatherDataAuto = () => {
     let lat = this.state.locInfo.lat;
@@ -115,7 +93,7 @@ class App extends Component {
     fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}`)
       .then(response => response.json())
       .then(response => this.setWeatherState(response));
-  }
+  };
 
   // This function needs to be completely redone.
   // You will also need to find a more flexible way for users to manually search for weather
@@ -127,38 +105,22 @@ class App extends Component {
       .then(response => this.setWeatherState(response));
   };
 
-  // Merges the GeoLocation data with the users coordinates ( In state )
-  setGeoState = responseData => {
-    let locInfo = { ...this.state.locInfo };
-    locInfo = update(this.state.locInfo, 
-      {$merge: {
-        cityName: responseData.results[1].address_components[0].long_name,
-        countryName: responseData.results[1].address_components[2].long_name,
-        formattedAddress: responseData.results[1].formatted_address,
-        provName: responseData.results[1].address_components[1].long_name,
-      }
-    })
-    this.setState({ locInfo }, () => {
-      this.fetchWeatherDataAuto();
-    });
-  }
-
   // Sets the weather state
   setWeatherState = responseData => {
     let locInfo = { ...this.state.locInfo };
-    locInfo = update(this.state.locInfo,
-      {$merge: {
+    locInfo = update(this.state.locInfo, {
+      $merge: {
         timezone: responseData.timezone
       }
     });
 
     let temperature = { ...this.state.temperature };
     temperature = {
-      apparentTemperature : responseData.currently.apparentTemperature,
+      apparentTemperature: responseData.currently.apparentTemperature,
       dewPoint: responseData.currently.dewPoint,
       humidity: responseData.currently.humidity,
       pressure: responseData.currently.pressure,
-      temperature: responseData.currently.temperature,
+      temperature: responseData.currently.temperature
     };
 
     let weather = { ...this.state.weather };
@@ -187,17 +149,18 @@ class App extends Component {
   render() {
     return (
       <div>
-          <Nav toggleMenu={toggleMenu} />
-          <div className="appContainer">
-            <h2 className="cityName">{this.state.locInfo.formattedAddress}</h2>
-            <WeatherContainer 
-              fetchWeatherDataAuto={this.fetchWeatherDataAuto}
-              temperature={this.state.temperature}
-              weather={this.state.weather}
-              wind={this.state.wind} 
-              sun={this.state.sun}/>
-            <Menu fetchWeatherDataManual={this.fetchWeatherDataManual} />
-          </div>
+        <Nav toggleMenu={toggleMenu} />
+        <div className="appContainer">
+          <h2 className="cityName">{this.state.locInfo.formattedAddress}</h2>
+          <WeatherContainer
+            fetchWeatherDataAuto={this.fetchWeatherDataAuto}
+            temperature={this.state.temperature}
+            weather={this.state.weather}
+            wind={this.state.wind}
+            sun={this.state.sun}
+          />
+          <Menu fetchWeatherDataManual={this.fetchWeatherDataManual} />
+        </div>
       </div>
     );
   }

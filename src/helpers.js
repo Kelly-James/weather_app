@@ -52,3 +52,19 @@ export function convertUNIXTime(unixTime) {
     let formatedTime = hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
     return formatedTime;
 }
+
+// Get user coordinates and location info
+export function getUserCoordinates() {
+    let options = { enableHighAccuracy: true };
+
+    let success = pos => {
+        let coords = pos.coords;
+        return coords;
+    };
+
+    let error = err => {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
+};
