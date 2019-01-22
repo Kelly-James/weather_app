@@ -55,6 +55,7 @@ class App extends Component {
     this.getUserCoordinates();
   }
 
+  // Still in development - Not currently in use
   // Set user location info state object, once done get weather data and set weather state
   setUserLocationInfo = () => {
     let coords = this.getUserCoordinates();
