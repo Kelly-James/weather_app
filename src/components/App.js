@@ -87,6 +87,15 @@ class App extends Component {
     navigator.geolocation.getCurrentPosition(success, error, options);
   };
 
+  // Fetch coordinates based on user input
+  fetchGeoLocation = (locationString) => {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${locationString}&key=${apiKey.google_key}`)
+    .then(response => response.json())
+    // .then(response => console.log('Repsonse: ', response));
+    .then(response => this.setGeoState(response));
+  }
+
+  // Fetch weather data on page load using user location
   fetchWeatherDataAuto = () => {
     let lat = this.state.locInfo.lat;
     let lon = this.state.locInfo.lon;
@@ -104,6 +113,22 @@ class App extends Component {
       .then(response => response.json())
       .then(response => this.setWeatherState(response));
   };
+
+  // Almost sets the Geo State - this breaks in some cases when there are more/less address_components. 
+  // I beleive I will have to loop through the address_components array to get the correct values
+  // Sets the Geo state
+  setGeoState = responseData => {
+    let locInfo = { ...this.state.locInfo };
+    locInfo = {
+      cityName: responseData.results[0].address_components[0].long_name,
+      countryName: responseData.results[0].address_components[3].long_name,
+      formattedAddress: responseData.results[0].formatted_address,
+      lat: responseData.results[0].geometry.location.lat,
+      lon: responseData.results[0].geometry.location.lng,
+      provName: responseData.results[0].address_components[2].long_name
+    };
+    this.setState({ locInfo });
+  }
 
   // Sets the weather state
   setWeatherState = responseData => {
@@ -159,7 +184,10 @@ class App extends Component {
             wind={this.state.wind}
             sun={this.state.sun}
           />
-          <Menu fetchWeatherDataManual={this.fetchWeatherDataManual} />
+          <Menu 
+            fetchWeatherDataManual={this.fetchWeatherDataManual} 
+            fetchGeoLocation={this.fetchGeoLocation}
+          />
         </div>
       </div>
     );
