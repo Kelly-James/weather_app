@@ -118,7 +118,7 @@ class App extends Component {
         <Nav toggleMenu={toggleMenu} />
         <div className="appContainer">
           <h2 className="cityName">{this.state.locInfo.formattedAddress}</h2>
-          <WeatherContainer weatherData={this.state.weatehrData} />
+          <WeatherContainer weatherData={this.state.weatherData} />
           <Menu fetchGeoLocation={this.fetchGeoLocation} />
         </div>
       </div>
