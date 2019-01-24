@@ -3,7 +3,7 @@ import update from "immutability-helper";
 import Menu from './Menu';
 import Nav from './Nav';
 import WeatherContainer from './WeatherContainer';
-import { toggleMenu } from '../helpers';
+import { toggleMenu, dissectGeoResponse } from '../helpers';
 
 import '../css/App.css';
 
@@ -20,43 +20,17 @@ class App extends Component {
       provName: null,
       timezone: null
     },
-    temperature: {
-      apparentTemperature: null,
-      dewPoint: null,
-      humidity: null,
-      pressure: null,
-      temperature: null
-    },
-    sun: {
-      sunrise: null,
-      sunset: null
-    },
-    weather: {
-      icon: null,
-      ozone: null,
-      precipIntensity: null,
-      precipProbibility: null,
-      precipType: null,
-      pressure: null,
-      summary: null,
-      uvIndex: null,
-      visibility: null
-    },
-    wind: {
-      windBearing: null,
-      windGust: null,
-      windSpeed: null
-    }
+    weatherData: {}
   };
 
   componentDidMount() {
     console.log("App Mounted..");
-    this.setUserLocationInfo();
+    this.autoLoadData();
   }
 
-  // Get user location data and set user location info state object
-  // Once state ( locInfo ) has been updated, fetch weather for users location
-  setUserLocationInfo = () => {
+  // Get user location data ( longitude, latitude ) and set user location state object
+  // Once state ( locInfo ) has been updated, fetch weather for users current location
+  autoLoadData = () => {
     let options = { enableHighAccuracy: true };
 
     let error = err => {
@@ -66,7 +40,11 @@ class App extends Component {
     let success = pos => {
       let coords = pos.coords;
       // Fetch GeoLocation data
-      fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.latitude},${coords.longitude}&key=${apiKey.google_key}`)
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
+          coords.latitude
+        },${coords.longitude}&key=${apiKey.google_key}`
+      )
         .then(response => response.json())
         .then(response => {
           let locInfo = { ...this.state.locInfo };
@@ -79,7 +57,7 @@ class App extends Component {
             provName: response.results[1].address_components[1].long_name
           };
           this.setState({ locInfo }, () => {
-            this.fetchWeatherDataAuto();
+            this.fetchWeatherData();
           });
         });
     };
@@ -88,15 +66,20 @@ class App extends Component {
   };
 
   // Fetch coordinates based on user input
-  fetchGeoLocation = (locationString) => {
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${locationString}&key=${apiKey.google_key}`)
-    .then(response => response.json())
-    // .then(response => console.log('Repsonse: ', response));
-    .then(response => this.setGeoState(response));
-  }
+  // Store response data in state
+  fetchGeoLocation = locationString => {
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${locationString}&key=${
+        apiKey.google_key
+      }`
+    )
+      .then(response => response.json())
+      .then(response => this.setGeoState(response));
+  };
 
-  // Fetch weather data on page load using user location
-  fetchWeatherDataAuto = () => {
+  // Fetch weather data 
+  // Store response data in state
+  fetchWeatherData = () => {
     let lat = this.state.locInfo.lat;
     let lon = this.state.locInfo.lon;
     fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}`)
@@ -104,71 +87,29 @@ class App extends Component {
       .then(response => this.setWeatherState(response));
   };
 
-  // This function needs to be completely redone.
-  // You will also need to find a more flexible way for users to manually search for weather
-  fetchWeatherDataManual = () => {
-    let lat = this.state.locInfo.lat;
-    let lon = this.state.locInfo.lon;
-    fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}`)
-      .then(response => response.json())
-      .then(response => this.setWeatherState(response));
-  };
-
-  // Almost sets the Geo State - this breaks in some cases when there are more/less address_components. 
-  // I beleive I will have to loop through the address_components array to get the correct values
-  // Sets the Geo state
+  // Set the Geo state
+  // Make call for weather data based off user input
   setGeoState = responseData => {
+    let geoObject = dissectGeoResponse(responseData);
     let locInfo = { ...this.state.locInfo };
     locInfo = {
-      cityName: responseData.results[0].address_components[0].long_name,
-      countryName: responseData.results[0].address_components[3].long_name,
+      cityName: geoObject.city,
+      countryName: geoObject.country,
       formattedAddress: responseData.results[0].formatted_address,
       lat: responseData.results[0].geometry.location.lat,
       lon: responseData.results[0].geometry.location.lng,
-      provName: responseData.results[0].address_components[2].long_name
+      provName: geoObject.province
     };
-    this.setState({ locInfo });
-  }
-
-  // Sets the weather state
-  setWeatherState = responseData => {
-    let locInfo = { ...this.state.locInfo };
-    locInfo = update(this.state.locInfo, {
-      $merge: {
-        timezone: responseData.timezone
-      }
+    this.setState({ locInfo }, () => {
+      this.fetchWeatherData();
     });
+  };
 
-    let temperature = { ...this.state.temperature };
-    temperature = {
-      apparentTemperature: responseData.currently.apparentTemperature,
-      dewPoint: responseData.currently.dewPoint,
-      humidity: responseData.currently.humidity,
-      pressure: responseData.currently.pressure,
-      temperature: responseData.currently.temperature
-    };
-
-    let weather = { ...this.state.weather };
-    weather = {
-      icon: responseData.currently.icon,
-      ozone: responseData.currently.ozone,
-      precipIntensity: responseData.currently.precipIntensity,
-      precipProbibility: responseData.currently.precipProbibility,
-      precipType: responseData.currently.precipType,
-      pressure: responseData.currently.pressure,
-      summary: responseData.currently.summary,
-      uvIndex: responseData.currently.uvIndex,
-      visibility: responseData.currently.visibility
-    };
-
-    let wind = { ...this.state.wind };
-    wind = {
-      windBearing: responseData.currently.windBearing,
-      windGust: responseData.currently.windGust,
-      windSpeed: responseData.currently.windSpeed
-    };
-
-    this.setState({ locInfo, temperature, weather, wind });
+  // Set the weather state
+  setWeatherState = responseData => {
+    let weatherData = { ...this.state.weatherData };
+    weatherData = responseData;
+    this.setState({ weatherData });
   };
 
   render() {
@@ -177,17 +118,8 @@ class App extends Component {
         <Nav toggleMenu={toggleMenu} />
         <div className="appContainer">
           <h2 className="cityName">{this.state.locInfo.formattedAddress}</h2>
-          <WeatherContainer
-            fetchWeatherDataAuto={this.fetchWeatherDataAuto}
-            temperature={this.state.temperature}
-            weather={this.state.weather}
-            wind={this.state.wind}
-            sun={this.state.sun}
-          />
-          <Menu 
-            fetchWeatherDataManual={this.fetchWeatherDataManual} 
-            fetchGeoLocation={this.fetchGeoLocation}
-          />
+          <WeatherContainer weatherData={this.state.weatehrData} />
+          <Menu fetchGeoLocation={this.fetchGeoLocation} />
         </div>
       </div>
     );

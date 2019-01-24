@@ -7,14 +7,53 @@ export function toggleMenu() {
     }
 };
 
-export function convertUNIXTime(unixTime) {
-    let unix_time = unixTime;
-    let date = new Date(unix_time * 1000);
-    let hours = date.getHours();
-    let minutes = "0" + date.getMinutes();
-    let seconds = "0" + date.getSeconds();
-    let formatedTime = hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
-    return formatedTime;
+export function convertTimestamp(timestamp) {
+  var date = new Date(timestamp * 1000), // Convert the passed timestamp to milliseconds
+    year = date.getFullYear(),
+    month = ("0" + (date.getMonth() + 1)).slice(-2), // Months are zero based. Add leading 0.
+    day = ("0" + date.getDate()).slice(-2), // Add leading 0.
+    hour = date.getHours(),
+    min = ("0" + date.getMinutes()).slice(-2), // Add leading 0.
+    ampm = "AM",
+    time;
+
+  // Convert 24 hour time to 12 hour
+  if (hour > 12) {
+    hour = hour - 12;
+    ampm = "PM";
+  } else if (hour === 12) {
+    hour = 12;
+    ampm = "PM";
+  } else if (hour == 0) {
+    hour = 12;
+  }
+
+  // ie: 2014-03-24, 3:00 PM
+  time = year + "-" + month + "-" + day + ", " + hour + ":" + min + " " + ampm;
+  return time;
+}
+
+export function dissectGeoResponse (response) {
+    let geoObject = { city: null, country: null, province: null };
+    response.results[0].address_components.forEach(component => {
+        switch (component.types[0]) {
+        case "locality":
+            geoObject.city = component.long_name;
+            break
+        case "country":
+            geoObject.country = component.long_name;
+            break
+        case "administrative_area_level_1":
+            geoObject.province = component.long_name;
+            break
+        default: 
+        return;
+        }
+    });
+    if (!geoObject.city) {
+        geoObject.city = geoObject.province;
+    }
+    return geoObject
 }
 
 // Get user coordinates and location info

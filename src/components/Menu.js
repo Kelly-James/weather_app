@@ -9,17 +9,13 @@ class Menu extends React.Component {
 
   handleFetchWeather = () => {
     let cityString = document.getElementById("locationSearch").value;
-    console.log('City String: ', cityString);
     this.props.fetchGeoLocation(cityString);
-    // this.props.fetchWeatherDataManual(cityString);
   }
 
   handleUserInput = () => {
     let inputField = document.getElementById("locationSearch");
-    console.log('Input Element: ', inputField);
     inputField.addEventListener('change', () => {
       let input = inputField.value;
-      console.log('Input: ', input);
       return input;
     })
   }
