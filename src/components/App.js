@@ -23,18 +23,13 @@ class App extends Component {
       timezone: null
     },
     tempVariants: null,
-    // weatherData: null
-    weatherData: response
+    weatherData: null
+    // weatherData: response
   };
-
-  // App is breaking when using real data
-  // It seems as though the WeatherConatiner component is mounting before the weatherData state is updating
-  // Most likely due to timing
-  // Will have to look into lifecycle methods.. ? I think..
 
   componentDidMount() {
     console.log("App Mounted..");
-    // this.autoLoadData();
+    this.autoLoadData();
   }
 
   // Get user location data ( longitude, latitude ) and set user location state object
@@ -117,7 +112,8 @@ class App extends Component {
   // Set the weather state
   setWeatherState = response => {
     let weatherData = { ...this.state.weatherData };
-    weatherData = response;
+    let responseTempVariants = tempVariants(response, convertTimestamp);
+    weatherData = responseTempVariants;
     this.setState({ weatherData });
   };
 

@@ -49,12 +49,10 @@ export function tempVariants(response, callback) {
   todayTemps.sort((a, b) => {
     return a.temperature - b.temperature;
   });
-  temps.high =
-    todayTemps[todayTemps.length - 1].temperature +
-    " - " +
-    callback(todayTemps[todayTemps.length - 1].time);
-  temps.low = todayTemps[0].temperature + " - " + callback(todayTemps[0].time);
-  return temps;
+  temps.high = todayTemps[todayTemps.length - 1].temperature;
+  temps.low = todayTemps[0].temperature;
+  response.currently.temperatureVariants = temps;
+  return response;
 };
 
 export function dissectGeoResponse (response) {

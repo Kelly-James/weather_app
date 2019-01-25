@@ -1,8 +1,5 @@
 import React from 'react';
-// import Sun from './Sun';
-// import Temp from './Temp';
-// import Weather from './Weather';
-// import Wind from './Wind';
+import { convertTimestamp } from '../helpers';
 
 import '../css/WeatherContainer.css';
 import '../css/weather-icons.css';
@@ -12,26 +9,6 @@ class WeatherContainer extends React.Component {
 
   componentDidMount() {
     console.log('Weather Mounted');
-    this.handleSetWindBearing();
-    this.handleGetWeatherIcon();
-  }
-
-  handleSetWindBearing = () => {
-    let className = `from-${this.props.weatherData.currently.windBearing}-deg`;
-    let compass = document.querySelector('.wi-wind');
-    compass.classList.add(className);
-  }
-
-  handleGetWeatherIcon = () => {
-    let className = `wi-forecast-io-${this.props.weatherData.currently.icon}`;
-    let weatherIcon = document.querySelector('.weatherIcon');
-    weatherIcon.classList.add(className);
-  }
-
-  // Get high/low temp
-  // Loop through hourly to find highest and lowest temp
-  getTempVariants = () => {
-    
   }
 
   render() {
@@ -41,21 +18,22 @@ class WeatherContainer extends React.Component {
     return <div id="weatherFrame" className="frame">
         <div className="weatherHeaderContainer">
           <div className="weatherHeader">
-            {/* <h2 className="cityName">{this.props.locInfo.formattedAddress}</h2> */}
-            <h2 className="headerCityName">
+            <h2 className="headerCityName">{this.props.locInfo.formattedAddress}</h2>
+            {/* <h2 className="headerCityName">
               Current Weather for: Location Placeholder
-            </h2>
+            </h2> */}
+            <h6 className="updatedAt">Last Updated: {convertTimestamp(this.props.weatherData.currently.time)}</h6>
           </div>
         </div>
         <div className="currentDetailsContainer">
           <div className="currentDetails">
-            <div className="weatherGrid">
+            <div className="weatherBarGrid">
               <div className="windCell weatherWidget">
                 <p className="cellText">
                   Wind: {this.props.weatherData.currently.windSpeed}
                 </p>
                 {/* <p className="cellText">Wind: 5 km/h</p> */}
-                <i className="wi wi-wind" />
+                <i className={`wi wi-wind from-${this.props.weatherData.currently.windBearing}-deg`} />
               </div>
               <div className="humidityCell weatherWidget">
                 <p className="cellText">
@@ -82,16 +60,31 @@ class WeatherContainer extends React.Component {
         </div>
         <div className="currentWeatherMainContainer">
           <div className="currentWeather">
-            <p className="weatherSummary">
-              {this.props.weatherData.currently.summary}
-            </p>
-            <p className="temperature">
-              {this.props.weatherData.currently.temperature}&deg;
-            </p>
-            <i className="wi weatherIcon" />
-            <p className="apparentTemp">
-              Feels like {this.props.weatherData.currently.apparentTemperature}&deg;
-            </p>
+            <div className="currentWeatherGrid">
+              <div className="summaryCell">
+                <p className="weatherSummary">
+                  {this.props.weatherData.currently.summary}
+                </p>
+              </div>
+              <div className="weatherIconCell">
+                <i className={`wi weatherIcon wi-forecast-io-${this.props.weatherData.currently.icon}`} />
+              </div>
+              <div className="tempCell">
+                <p className="temperature">
+                  {this.props.weatherData.currently.temperature}&deg;
+                </p>
+              </div>
+              <div className="tempVarCell">
+                <ul className="tempList">
+                  <li className="apparentTemp">
+                    Feels like{" "}
+                    {this.props.weatherData.currently.apparentTemperature}&deg;
+                  </li>
+                  <li className="tempVariantHigh">High: {this.props.weatherData.currently.temperatureVariants.high}&deg;</li>
+                  <li className="tempVariantLow">Low: {this.props.weatherData.currently.temperatureVariants.low}&deg;</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>;
