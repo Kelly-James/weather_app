@@ -22,7 +22,6 @@ class App extends Component {
       provName: null,
       timezone: null
     },
-    tempVariants: null,
     weatherData: null
     // weatherData: response
   };

@@ -55,6 +55,64 @@ export function tempVariants(response, callback) {
   return response;
 };
 
+// Write function that takes in windBearing and returns the cardinal direction
+export function getCardinalDirection (windBearing) {
+    let className = 'wi-towards-';
+    switch (windBearing) {
+        case windBearing > 336 && windBearing <= 359 || windBearing === 0:
+            className = +"n";
+            break;
+        case windBearing > 0 && windBearing <= 23:
+            className = +"nne";
+            break;
+        case windBearing > 23 && windBearing <= 45:
+            className = +"ne";
+            break;
+        case windBearing > 45 && windBearing <= 68:
+            className = +"ene";
+            break;
+        case windBearing > 68 && windBearing <= 90:
+            className = +"e";
+            break;
+        case windBearing > 90 && windBearing <= 113:
+            className = +"ese";
+            break;
+        case windBearing > 113 && windBearing <= 135:
+            className = +"se";
+            break;
+        case windBearing > 135 && windBearing <= 158:
+            className = +"sse";
+            break;
+        case windBearing > 158 && windBearing <= 180:
+            className = +"s";
+            break;
+        case windBearing > 180 && windBearing <= 203:
+            className = +"ssw";
+            break;
+        case windBearing > 203 && windBearing <= 225:
+            className = +"s";
+            break;
+        case windBearing > 225 && windBearing <= 248:
+            className = +"wsw";
+            break;
+        case windBearing > 248 && windBearing <= 270:
+            className = +"w";
+            break;
+        case windBearing > 270 && windBearing <= 293:
+            className = +"wnw";
+            break;
+        case windBearing > 293 && windBearing <= 313:
+            className = +"nw";
+            break;
+        case windBearing > 313 && windBearing <= 336:
+            className = +"nnw";
+            break;
+        default:
+            return;
+    }
+    return className;
+}
+
 export function dissectGeoResponse (response) {
     let geoObject = { city: null, country: null, province: null };
     response.results[0].address_components.forEach(component => {
