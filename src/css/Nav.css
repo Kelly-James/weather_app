@@ -1,12 +1,6 @@
-.navContainer {
-    /* color: rgba(186, 230, 250, 0.818); */
-    left: 0;
-    position: absolute;
-    top: 0;
-}
-
 .nav {
     background: rgba(14, 177, 252, 0.818);
+    display: block;
     height: 35px;
     position: fixed;
     width: 100%;

@@ -24,7 +24,7 @@ export function convertTimestamp(timestamp) {
   } else if (hour === 12) {
     hour = 12;
     ampm = "PM";
-  } else if (hour == 0) {
+  } else if (hour === 0) {
     hour = 12;
   }
 
@@ -32,6 +32,30 @@ export function convertTimestamp(timestamp) {
   time = year + "-" + month + "-" + day + ", " + hour + ":" + min + " " + ampm;
   return time;
 }
+
+export function tempVariants(response, callback) {
+  let temps = {
+    high: null,
+    low: null
+  };
+  let todayTemps = [];
+  let currentDay = callback(response.currently.time).slice(0, 10);
+  response.hourly.data.forEach(dataElement => {
+    let timeElement = callback(dataElement.time).slice(0, 10);
+    if (timeElement === currentDay) {
+      todayTemps.push(dataElement);
+    }
+  });
+  todayTemps.sort((a, b) => {
+    return a.temperature - b.temperature;
+  });
+  temps.high =
+    todayTemps[todayTemps.length - 1].temperature +
+    " - " +
+    callback(todayTemps[todayTemps.length - 1].time);
+  temps.low = todayTemps[0].temperature + " - " + callback(todayTemps[0].time);
+  return temps;
+};
 
 export function dissectGeoResponse (response) {
     let geoObject = { city: null, country: null, province: null };

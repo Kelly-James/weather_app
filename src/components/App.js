@@ -3,9 +3,11 @@ import update from "immutability-helper";
 import Menu from './Menu';
 import Nav from './Nav';
 import WeatherContainer from './WeatherContainer';
-import { toggleMenu, dissectGeoResponse } from '../helpers';
+import { convertTimestamp, dissectGeoResponse, tempVariants, toggleMenu } from '../helpers';
 
 import '../css/App.css';
+
+import response from '../data/response.json';
 
 const apiKey = require("../keys/api-key.json");
 
@@ -20,12 +22,19 @@ class App extends Component {
       provName: null,
       timezone: null
     },
-    weatherData: {}
+    tempVariants: null,
+    // weatherData: null
+    weatherData: response
   };
+
+  // App is breaking when using real data
+  // It seems as though the WeatherConatiner component is mounting before the weatherData state is updating
+  // Most likely due to timing
+  // Will have to look into lifecycle methods.. ? I think..
 
   componentDidMount() {
     console.log("App Mounted..");
-    this.autoLoadData();
+    // this.autoLoadData();
   }
 
   // Get user location data ( longitude, latitude ) and set user location state object
@@ -77,7 +86,7 @@ class App extends Component {
       .then(response => this.setGeoState(response));
   };
 
-  // Fetch weather data 
+  // Fetch weather data
   // Store response data in state
   fetchWeatherData = () => {
     let lat = this.state.locInfo.lat;
@@ -106,19 +115,23 @@ class App extends Component {
   };
 
   // Set the weather state
-  setWeatherState = responseData => {
+  setWeatherState = response => {
     let weatherData = { ...this.state.weatherData };
-    weatherData = responseData;
+    weatherData = response;
     this.setState({ weatherData });
   };
 
   render() {
     return (
       <div>
-        <Nav toggleMenu={toggleMenu} />
+        <div className="navContainer">
+          <Nav toggleMenu={toggleMenu} />
+        </div>
         <div className="appContainer">
-          <h2 className="cityName">{this.state.locInfo.formattedAddress}</h2>
-          <WeatherContainer weatherData={this.state.weatherData} />
+          <WeatherContainer
+            locInfo={this.state.locInfo}
+            weatherData={this.state.weatherData}
+          />
           <Menu fetchGeoLocation={this.fetchGeoLocation} />
         </div>
       </div>

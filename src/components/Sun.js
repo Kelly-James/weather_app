@@ -6,8 +6,8 @@ class Sun extends React.Component {
         return (
             <div className="sunFrame">
                 <h3>Sun Data: </h3>
-                <p>Sunrise: {this.props.sun.sunrise}</p>
-                <p>Sunset: {this.props.sun.sunset}</p>
+                {/* <p>Sunrise: {this.props.sun.sunrise}</p> */}
+                {/* <p>Sunset: {this.props.sun.sunset}</p> */}
             </div>
         )
     }
