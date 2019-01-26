@@ -22,13 +22,13 @@ class App extends Component {
       provName: null,
       timezone: null
     },
-    weatherData: null
-    // weatherData: response
+    // weatherData: null
+    weatherData: response
   };
 
   componentDidMount() {
     console.log("App Mounted..");
-    this.autoLoadData();
+    // this.autoLoadData();
   }
 
   // Get user location data ( longitude, latitude ) and set user location state object

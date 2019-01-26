@@ -1,5 +1,5 @@
 import React from 'react';
-import { convertTimestamp } from '../helpers';
+import { convertTimestamp, getCardinalDirection } from '../helpers';
 
 import '../css/WeatherContainer.css';
 import '../css/weather-icons.css';
@@ -34,6 +34,7 @@ class WeatherContainer extends React.Component {
                 </p>
                 {/* <p className="cellText">Wind: 5 km/h</p> */}
                 <i className={`wi wi-wind from-${this.props.weatherData.currently.windBearing}-deg`} />
+                <p className={`cardinalDirection ${getCardinalDirection(this.props.weatherData.currently.windBearing)}`}></p>
               </div>
               <div className="humidityCell weatherWidget">
                 <p className="cellText">
