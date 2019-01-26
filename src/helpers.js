@@ -113,7 +113,7 @@ export function getCardinalDirection (windBearing) {
         default:
             return;
     }
-    return className;
+    return cardinalDirInfo;
 }
 
 export function dissectGeoResponse (response) {

@@ -34,7 +34,7 @@ class WeatherContainer extends React.Component {
                 </p>
                 {/* <p className="cellText">Wind: 5 km/h</p> */}
                 <i className={`wi wi-wind from-${this.props.weatherData.currently.windBearing}-deg`} />
-                <p className={`cardinalDirection ${getCardinalDirection(this.props.weatherData.currently.windBearing)}`}></p>
+                {/* <p className={`cardinalDirection ${getCardinalDirection(this.props.weatherData.currently.windBearing)}`}></p> */}
               </div>
               <div className="humidityCell weatherWidget">
                 <p className="cellText">
