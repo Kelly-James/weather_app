@@ -5,6 +5,17 @@ i {
     top: 10%;
 }
 
+.loading {
+    /* border: 1px solid rgba(186, 230, 250, 0.818); */
+    border-radius: 25%;
+    color: rgba(186, 230, 250, 0.818);
+    display: inline;
+    left: calc(50% - 2em);
+    position: relative;
+    top: calc(50% - 2em);
+    width: 2em;
+}
+
 .cellText {
     display: inline-block;
     margin: 10px;

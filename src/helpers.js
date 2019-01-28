@@ -57,63 +57,95 @@ export function tempVariants(response, callback) {
 
 // Write function that takes in windBearing and returns the cardinal direction
 export function getCardinalDirection (windBearing) {
-    let cardinalDirInfo = {
-        className: 'wi-towards-',
-        cardinalAlpha: ''
-    };
-    switch (windBearing) {
-        case windBearing > 336 && windBearing <= 359 || windBearing === 0:
-            cardinalDirInfo.className = +"n";
+    // let cardinalDirInfo = {
+    //     className: 'wi-towards-',
+    //     cardinalAlpha: ''
+    // };
+    let cardinalAlpha = ""
+    switch (true) {
+        case windBearing > 336 && (windBearing <= 359 || windBearing === 0):
+            // cardinalDirInfo.className = +"n";
+            cardinalAlpha = "N"
             break;
         case windBearing > 0 && windBearing <= 23:
-            cardinalDirInfo.className = +"nne";
+            // cardinalDirInfo.className = +"nne";
+            cardinalAlpha = "NNE"
             break;
         case windBearing > 23 && windBearing <= 45:
-            cardinalDirInfo.className = +"ne";
+            // cardinalDirInfo.className = +"ne";
+            cardinalAlpha = "NE"
             break;
         case windBearing > 45 && windBearing <= 68:
-            cardinalDirInfo.className = +"ene";
+            // cardinalDirInfo.className = +"ene";
+            cardinalAlpha = "ENE"
             break;
         case windBearing > 68 && windBearing <= 90:
-            cardinalDirInfo.className = +"e";
+            // cardinalDirInfo.className = +"e";
+            cardinalAlpha = "E"
             break;
         case windBearing > 90 && windBearing <= 113:
-            cardinalDirInfo.className = +"ese";
+            // cardinalDirInfo.className = +"ese";
+            cardinalAlpha = "ESE"
             break;
         case windBearing > 113 && windBearing <= 135:
-            cardinalDirInfo.className = +"se";
+            // cardinalDirInfo.className = +"se";
+            cardinalAlpha = "SE"
             break;
         case windBearing > 135 && windBearing <= 158:
-            cardinalDirInfo.className = +"sse";
+            // cardinalDirInfo.className = +"sse";
+            cardinalAlpha = "SSE"
             break;
         case windBearing > 158 && windBearing <= 180:
-            cardinalDirInfo.className = +"s";
+            // cardinalDirInfo.className = +"s";
+            cardinalAlpha = "S"
             break;
         case windBearing > 180 && windBearing <= 203:
-            cardinalDirInfo.className = +"ssw";
+            // cardinalDirInfo.className = +"ssw";
+            cardinalAlpha = "SSW"
             break;
         case windBearing > 203 && windBearing <= 225:
-            cardinalDirInfo.className = +"s";
+            // cardinalDirInfo.className = +"s";
+            cardinalAlpha = "S"
             break;
         case windBearing > 225 && windBearing <= 248:
-            cardinalDirInfo.className = +"wsw";
+            // cardinalDirInfo.className = +"wsw";
+            cardinalAlpha = "WSW"
             break;
         case windBearing > 248 && windBearing <= 270:
-            cardinalDirInfo.className = +"w";
+            // cardinalDirInfo.className = +"w";
+            cardinalAlpha = "W"
             break;
         case windBearing > 270 && windBearing <= 293:
-            cardinalDirInfo.className = +"wnw";
+            // cardinalDirInfo.className = +"wnw";
+            cardinalAlpha = "WNW"
             break;
         case windBearing > 293 && windBearing <= 313:
-            cardinalDirInfo.className = +"nw";
+            // cardinalDirInfo.className = +"nw";
+            cardinalAlpha = "NW"
             break;
         case windBearing > 313 && windBearing <= 336:
-            cardinalDirInfo.className = +"nnw";
+            // cardinalDirInfo.className = +"nnw";
+            cardinalAlpha = "NNW"
             break;
         default:
-            return;
+        cardinalAlpha = "Not Working"
+        break;
     }
-    return cardinalDirInfo;
+    return cardinalAlpha;
+}
+
+export function measurementConverter (unit) {
+    switch (unit) {
+        case "km":
+            let measurements =  document.getElementsByClassName('measurement');
+            measurements.forEach(meas => {
+                meas.innerHTML = convert2Km(meas);
+            })
+    }
+}
+
+let convert2Km = (mile) => {
+    return mile * 1.69034;
 }
 
 export function dissectGeoResponse (response) {

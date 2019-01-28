@@ -1,5 +1,5 @@
 import React from 'react';
-import { convertTimestamp, getCardinalDirection } from '../helpers';
+import { convertTimestamp, getCardinalDirection, measurementConverter } from '../helpers';
 
 import '../css/WeatherContainer.css';
 import '../css/weather-icons.css';
@@ -11,9 +11,17 @@ class WeatherContainer extends React.Component {
     console.log('Weather Mounted');
   }
 
+  // handleGetCardinalDirection = () => {
+  //   let cardinalDirObj = getCardinalDirection(this.props.weatherData.currently.windBearing);
+  //   let innerHtml = cardinalDirObj.cardinalAlpha;
+  //   let carDir = document.querySelector('.cardinalDirection');
+  //   console.log('Car Dir: ', carDir);
+  //   carDir.innerHTML = innerHtml;
+  // }
+
   render() {
     if(!this.props.weatherData) {
-      return <h1>Loading Data...</h1>
+      return <h1 className="loading">Loading Data...</h1>
     }
     return <div id="weatherFrame" className="frame">
         <div className="weatherHeaderContainer">
@@ -29,12 +37,12 @@ class WeatherContainer extends React.Component {
           <div className="currentDetails">
             <div className="weatherBarGrid">
               <div className="windCell weatherWidget">
-                <p className="cellText">
-                  Wind: {this.props.weatherData.currently.windSpeed}
+                <p className="cellText measurement">
+                  Wind: {this.props.weatherData.currently.windSpeed} mi
                 </p>
-                {/* <p className="cellText">Wind: 5 km/h</p> */}
                 <i className={`wi wi-wind from-${this.props.weatherData.currently.windBearing}-deg`} />
-                {/* <p className={`cardinalDirection ${getCardinalDirection(this.props.weatherData.currently.windBearing)}`}></p> */}
+                {/* <p className="cellText">Wind: 5 km/h</p> */}
+                <p className="cardinalDirection cellText">{getCardinalDirection(this.props.weatherData.currently.windBearing)}</p>
               </div>
               <div className="humidityCell weatherWidget">
                 <p className="cellText">
