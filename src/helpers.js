@@ -57,10 +57,6 @@ export function tempVariants(response, callback) {
 
 // Write function that takes in windBearing and returns the cardinal direction
 export function getCardinalDirection (windBearing) {
-    // let cardinalDirInfo = {
-    //     className: 'wi-towards-',
-    //     cardinalAlpha: ''
-    // };
     let cardinalAlpha = ""
     switch (true) {
         case windBearing > 336 && (windBearing <= 359 || windBearing === 0):
@@ -134,18 +130,90 @@ export function getCardinalDirection (windBearing) {
     return cardinalAlpha;
 }
 
-export function measurementConverter (unit) {
-    switch (unit) {
-        case "km":
-            let measurements =  document.getElementsByClassName('measurement');
-            measurements.forEach(meas => {
-                meas.innerHTML = convert2Km(meas);
-            })
+export function setUserPrefsAuto (response) {
+    let unitFlag = response.flags.units;
+    let userPrefs = {
+        units: {
+            speed: null,
+            temperature: null,
+            amountLarge: null,
+            amountSmall: null
+        }
     }
+    switch (unitFlag) {
+        case "us":
+            userPrefs.units.speed = 'mi/h';
+            userPrefs.units.temperature = "F";
+            userPrefs.units.amountLarge = "mi";
+            userPrefs.units.amountSmall = "in";
+            break;
+        case "ca":
+            userPrefs.units.speed = 'km/h';
+            userPrefs.units.temperature = "C";
+            userPrefs.units.amountLarge = "km";
+            userPrefs.units.amountSmall = "mm";
+            break;
+        case "si":
+            userPrefs.units.speed = 'm/s';
+            userPrefs.units.temperature = "C";
+            userPrefs.units.amountLarge = "km";
+            userPrefs.units.amountSmall = "mm";
+            break;
+        case "uk2":
+            userPrefs.units.speed = 'mi/h';
+            userPrefs.units.temperature = "C";
+            userPrefs.units.amountLarge = "mi";
+            userPrefs.units.amountSmall = "mm";
+            break;
+        default:
+            console.log('Check function, it could be broken..');
+    }
+    // console.log(userPrefs);
+    return userPrefs;
 }
 
-let convert2Km = (mile) => {
+// Write functions to convert units
+// export function measurementConverter (curUnits, selectedUnits, state) {
+//     let curUnits = state.userPrefs;
+//     switch (selectedUnits) {
+//         case "km":
+
+//     }
+// }
+
+// Miles to kilometers
+let mi2km = (mile) => {
     return mile * 1.69034;
+}
+
+// Kilometers to miles
+let km2mi = (km) => {
+    return km / 1.69034;
+}
+
+// Millimeters to inches
+let mm2in = (mm) => {
+    return mm / 25.4;
+}
+
+// Inches to millimeters
+let in2mm = (inch) => {
+    return inch * 25.4;
+}
+
+// Celsius to fahrenheit
+let c2f = (c) => {
+    return (c * 1.8) + 32;
+}
+
+// Fahrenheit to celsius
+let f2c = (f) => {
+    return (f - 32) / 1.8;
+}
+
+// Function that takes short form country name and returns units of measure
+export function getUnitOfMeasure(countryName) {
+
 }
 
 export function dissectGeoResponse (response) {
