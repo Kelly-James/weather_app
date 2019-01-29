@@ -1,3 +1,10 @@
+h2 {
+    color: rgba(186, 230, 250, 0.818);
+    display: inline-block;
+    line-height: 17px;
+    margin: 10px;
+}
+
 .nav {
     background: rgba(14, 177, 252, 0.818);
     display: block;
@@ -46,12 +53,5 @@
 
 .btnLine3 {
     top: 14px;
-}
-
-h2 {
-    color: rgba(186, 230, 250, 0.818);
-    display: block;
-    line-height: 17px;
-    margin: 10px;
 }
 

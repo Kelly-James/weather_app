@@ -1,0 +1,47 @@
+.locationSearch {
+    border-radius: 25px;
+    display: inline-block;
+    line-height: 17px;
+    position: relative;
+    text-align: center;
+    top: 0;
+}
+
+.searchContainer {
+    display: inline-block;
+    float: right;
+    position: relative;
+    right: 0;
+    top: 5px;
+}
+
+.searchButton {
+    background-color: rgb(201, 201, 201, 0.5);
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
+    position: relative;
+    right: 0;
+    text-decoration: none;
+}
+
+.weatherHeader {
+    height: inherit;
+    width: inherit;
+}
+
+.headerCityName {
+    color: rgb(0, 0, 0);
+    float: left;
+    line-height: 35px;
+    margin: 0px 5px;
+    top: 0;
+}
+
+.updatedAt {
+    color: rgb(0, 0, 0);
+    float: right;
+    line-height: 35px;
+    margin: 0px 5px;
+    top: 0;
+}

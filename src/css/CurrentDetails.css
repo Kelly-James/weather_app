@@ -1,0 +1,47 @@
+.currentDetails {
+    background-color: rgb(255, 255, 255); 
+    height: inherit;
+    width: inherit;
+}
+
+.weatherWidget {
+    border-left: 1px solid rgb(0, 0, 0);
+    border-right: 1px solid rgb(0, 0, 0);
+    color: rgba(0, 0, 0);
+    padding: 2px;
+    text-align: center;
+}
+
+.weatherBarGrid {
+    column-gap: 0px;
+    display: grid;
+    grid-template-areas: 
+        "a b c d e";
+    grid-template-columns: 5 1fr;
+    height: inherit;
+    width: 100%;
+}
+
+.windCell {
+    grid-area: a;
+}
+
+.humidityCell {
+    grid-area: b;
+}
+
+.precipitationCell {
+    grid-area: c;
+}
+
+.uvCell {
+    grid-area: d;
+}
+
+.pressureCell {
+    grid-area: e;
+}
+
+.wi-wind {
+    font-size: 25px;
+}

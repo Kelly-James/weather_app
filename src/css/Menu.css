@@ -1,6 +1,13 @@
+.measure {
+    border: none;
+    display: block;
+    height: 30px;
+    margin: 10px;
+    text-decoration: none;
+    width: 60px;
+}
+
 .menuContainer {
-    /* background-color: rgba(81, 56, 94, 0.5); */
-    /* height: 100%; */
     color: rgba(186, 230, 250, 0.818);
     right: 0;
     max-height: 50%;
@@ -9,8 +16,7 @@
     transition-duration: .5s;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-    top: 35px;
-    /* width: 20%; */
+    top: 40px;
 }
 
 .menuContainer.closed {
@@ -23,6 +29,4 @@ select {
     width: 200px;
 }
 
-button {
-    margin: 10px;
-}
+

@@ -3,7 +3,7 @@ import update from "immutability-helper";
 import Menu from './Menu';
 import Nav from './Nav';
 import WeatherContainer from './WeatherContainer';
-import { convertTimestamp, dissectGeoResponse, tempVariants, toggleMenu } from '../helpers';
+import { convertTimestamp, dissectGeoResponse, setUserPrefsAuto, tempVariants, toggleMenu } from '../helpers';
 
 import '../css/App.css';
 
@@ -13,10 +13,6 @@ const apiKey = require("../keys/api-key.json");
 
 class App extends Component {
   state = {
-    userPrefs: {
-      kmMi: 'km',
-
-    },
     locInfo: {
       cityName: null,
       countryName: null,
@@ -25,6 +21,14 @@ class App extends Component {
       lon: null,
       provName: null,
       timezone: null
+    },
+    userPrefs: {
+      units: {
+        speed: null,
+        temperature: null,
+        amountLarge: null,
+        amountSmall: null
+      }
     },
     weatherData: null
     // weatherData: response
@@ -50,7 +54,7 @@ class App extends Component {
       fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
           coords.latitude
-        },${coords.longitude}&key=${apiKey.google_key}&units=auto`
+        },${coords.longitude}&key=${apiKey.google_key}`
       )
         .then(response => response.json())
         .then(response => {
@@ -62,6 +66,7 @@ class App extends Component {
             lat: coords.latitude,
             lon: coords.longitude,
             provName: response.results[1].address_components[1].long_name
+            
           };
           this.setState({ locInfo }, () => {
             this.fetchWeatherData();
@@ -89,7 +94,7 @@ class App extends Component {
   fetchWeatherData = () => {
     let lat = this.state.locInfo.lat;
     let lon = this.state.locInfo.lon;
-    fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}`)
+    fetch(`/forecast/${apiKey.darkSky_key}/${lat},${lon}?units=auto`)
       .then(response => response.json())
       .then(response => this.setWeatherState(response));
   };
@@ -117,24 +122,21 @@ class App extends Component {
     let weatherData = { ...this.state.weatherData };
     let responseTempVariants = tempVariants(response, convertTimestamp);
     weatherData = responseTempVariants;
-    this.setState({ weatherData });
+    let userPrefs = { ...this.state.userPrefs };
+    userPrefs = setUserPrefsAuto(response);
+    this.setState({ weatherData, userPrefs });
   };
 
   render() {
-    return (
-      <div>
+    return <div>
         <div className="navContainer">
           <Nav toggleMenu={toggleMenu} />
         </div>
         <div className="appContainer">
-          <WeatherContainer
-            locInfo={this.state.locInfo}
-            weatherData={this.state.weatherData}
-          />
-          <Menu fetchGeoLocation={this.fetchGeoLocation} />
+          <WeatherContainer fetchGeoLocation={this.fetchGeoLocation} locInfo={this.state.locInfo} userPrefs={this.state.userPrefs} weatherData={this.state.weatherData} />
+          <Menu />
         </div>
-      </div>
-    );
+      </div>;
   }
 }
 
