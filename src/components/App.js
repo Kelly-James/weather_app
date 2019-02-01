@@ -3,7 +3,15 @@ import update from "immutability-helper";
 import Menu from './Menu';
 import Nav from './Nav';
 import WeatherContainer from './WeatherContainer';
-import { convertTimestamp, dissectGeoResponse, setUserPrefsAuto, tempVariants, toggleMenu } from '../helpers';
+import {
+  convertTimestamp,
+  convertUnits,
+  dissectGeoResponse,
+  setUserPrefsAuto,
+  tempVariants,
+  toggleMenu,
+  updateUserPrefs
+} from "../helpers";
 
 import '../css/App.css';
 
@@ -127,6 +135,16 @@ class App extends Component {
     this.setState({ weatherData, userPrefs });
   };
 
+  handleConvertUnits = unit => {
+    let weatherData = { ...this.state.weatherData };
+    let currentUnitSpeed = this.state.userPrefs.units.speed;
+    weatherData = convertUnits(unit, currentUnitSpeed, weatherData);
+
+    let userPrefs = updateUserPrefs(unit, this.state.userPrefs)
+
+    this.setState({ weatherData, userPrefs });
+  }
+
   render() {
     return <div>
         <div className="navContainer">
@@ -134,7 +152,7 @@ class App extends Component {
         </div>
         <div className="appContainer">
           <WeatherContainer fetchGeoLocation={this.fetchGeoLocation} locInfo={this.state.locInfo} userPrefs={this.state.userPrefs} weatherData={this.state.weatherData} />
-          <Menu />
+          <Menu handleConvertUnits={this.handleConvertUnits} weatherData={this.state.weatherData} />
         </div>
       </div>;
   }
