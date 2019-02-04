@@ -1,12 +1,10 @@
 i {
     display: block;
     position: relative;
-    /* right: -25%; */
     top: 10%;
 }
 
 .loading {
-    /* border: 1px solid rgba(186, 230, 250, 0.818); */
     border-radius: 25%;
     color: rgba(186, 230, 250, 0.818);
     display: inline;
@@ -23,12 +21,6 @@ i {
     /* top: 20%; */
 }
 
-/* .currentDetails {
-    background-color: rgb(255, 255, 255); 
-    height: inherit;
-    width: inherit;
-} */
-
 .currentDetailsContainer {
     height: 45px;
     margin: 2px;
@@ -37,79 +29,23 @@ i {
 }
 
 .currentWeatherMainContainer {
-    border-left: 1px solid rgb(0, 0, 0);
-    height: 200px;
+    /* height: 190px; */
     margin: 2px;
     padding: 0px;
-    width: 55%;
-}
-
-/* .windCell {
-    grid-area: a;
-}
-
-.humidityCell {
-    grid-area: b;
-}
-
-.precipitationCell {
-    grid-area: c;
-}
-
-.uvCell {
-    grid-area: d;
-}
-
-.pressureCell {
-    grid-area: e;
-} */
-
-/* .headerCityName {
-    color: rgb(0, 0, 0);
-    float: left;
-    line-height: 35px;
-    margin: 0px 5px;
-    top: 0;
-} */
-
-/* .updatedAt {
-    color: rgb(0, 0, 0);
-    float: right;
-    line-height: 35px;
-    margin: 0px 5px;
-    top: 0;
-} */
-
-/* .weatherBarGrid {
-    column-gap: 0px;
-    display: grid;
-    grid-template-areas: 
-        "a b c d e";
-    grid-template-columns: 5 1fr;
-    height: inherit;
     width: 100%;
-} */
+}
 
 .frame {
     border-left: 1px solid rgba(186, 230, 250, 0.818);
     border-right: 1px solid rgba(186, 230, 250, 0.818);
     height: 90%;
-    margin: 0 10% 0 10%;
+    margin: 0 20% 0 20%;
     /* left: 10px; */
     padding: 20px;
     position: fixed;
     top: 45px;
-    width: 80%;
+    width: 60%;
 }
-
-/* .wi-wind {
-    font-size: 25px;
-} */
-
-/* .weatherHeader {
-    height: inherit;
-    width: inherit;
-} */
 
 .weatherHeaderContainer {
     background-color: rgb(201, 201, 201, 0.5);
@@ -118,38 +54,3 @@ i {
     padding: 0px;
     width: 100%;
 }
-
-/* .weatherWidget {
-    border-left: 1px solid rgb(0, 0, 0);
-    border-right: 1px solid rgb(0, 0, 0);
-    color: rgba(0, 0, 0);
-    padding: 2px;
-    text-align: center;
-} */
-
-/* .locationSearch {
-    border-radius: 25px;
-    display: inline-block;
-    line-height: 17px;
-    position: relative;
-    text-align: center;
-    top: 0;
-}
-
-.searchContainer {
-    display: inline-block;
-    float: right;
-    position: relative;
-    right: 0;
-    top: 5px;
-}
-
-.searchButton {
-    background-color: rgb(201, 201, 201, 0.5);
-    border: none;
-    cursor: pointer;
-    margin: 0 5px;
-    position: relative;
-    right: 0;
-    text-decoration: none;
-} */

@@ -39,7 +39,6 @@ class App extends Component {
       }
     },
     weatherData: null,
-    convertedWeatherData: null
     // weatherData: response
   };
 

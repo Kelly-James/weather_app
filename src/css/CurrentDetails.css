@@ -5,8 +5,6 @@
 }
 
 .weatherWidget {
-    border-left: 1px solid rgb(0, 0, 0);
-    border-right: 1px solid rgb(0, 0, 0);
     color: rgba(0, 0, 0);
     padding: 2px;
     text-align: center;
