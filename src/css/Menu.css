@@ -7,6 +7,12 @@
     width: 60px;
 }
 
+.measure:disabled {
+    border: 2px solid red;
+    /* border-bottom: solid 1px rgb(255, 255, 0); */
+    color: rgb(0, 0, 255);
+}
+
 .menuContainer {
     color: rgba(186, 230, 250, 0.818);
     right: 0;

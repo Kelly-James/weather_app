@@ -144,7 +144,7 @@ export function setUserPrefsAuto (response) {
     }
     switch (unitFlag) {
         case "us":
-            userPrefs.units.speed = 'mi/h';
+            userPrefs.units.speed = 'mph';
             userPrefs.units.temperature = "F";
             userPrefs.units.amountLarge = "mi";
             userPrefs.units.amountSmall = "in";
@@ -162,7 +162,7 @@ export function setUserPrefsAuto (response) {
             userPrefs.units.amountSmall = "mm";
             break;
         case "uk2":
-            userPrefs.units.speed = 'mi/h';
+            userPrefs.units.speed = 'mph';
             userPrefs.units.temperature = "C";
             userPrefs.units.amountLarge = "mi";
             userPrefs.units.amountSmall = "mm";
@@ -247,12 +247,12 @@ let m2km = (m) => {
 
 // Miles to meters
 let mi2m = (mi) => {
-    return mi * 1609.34
+    return mi / 2.237;
 }
 
 // Meters to miles
 let m2mi = (m) => {
-    return m / 1609.34
+    return m * 2.237;
 }
 
 // Millimeters to inches
@@ -277,7 +277,6 @@ let f2c = (f) => {
 
 // Takes in unit and returns appropriate conversion function
 let unitFuncGen = (newUnit, currentUnit) => {
-    // debugger;
     let requestedFunction = null;
     switch (true) {
       case newUnit === "km/h" && currentUnit === "mph":
@@ -292,10 +291,10 @@ let unitFuncGen = (newUnit, currentUnit) => {
       case newUnit === "mph" && currentUnit === "m/s":
         requestedFunction = m2mi
         break;
-      case newUnit === "m" && currentUnit === "km/h":
+      case newUnit === "m/s" && currentUnit === "km/h":
         requestedFunction = km2m
         break;
-      case newUnit === "m" && currentUnit === "mph":
+      case newUnit === "m/s" && currentUnit === "mph":
         requestedFunction = mi2m
         break;
       case newUnit === "mm":
@@ -316,25 +315,25 @@ let unitFuncGen = (newUnit, currentUnit) => {
     return requestedFunction;
 }
 
-// Converts measurements from metric to imperial
-export function convertUnits(unit, currentSpeedUnit, state) {
-    let weatherData = { ...state };
+// Converts current measurements 
+export function convertUnits(unit, currentSpeedUnit, weatherDataState) {
+    let weatherDataObj = { ...weatherDataState };
     let conversionFunction = unitFuncGen(unit, currentSpeedUnit);
     switch (unit) {
         case "c":
         case "f":
-            for (let property in weatherData.currently) {
+            for (let property in weatherDataObj.currently) {
                 if (property === "temperature") {
-                    weatherData.currently.temperature = conversionFunction(weatherData.currently.temperature);
+                    weatherDataObj.currently.temperature = conversionFunction(weatherDataObj.currently.temperature);
                 }
                 if (property === "apparentTemperature") {
-                    weatherData.currently.apparentTemperature = conversionFunction(weatherData.currently.apparentTemperature);
+                    weatherDataObj.currently.apparentTemperature = conversionFunction(weatherDataObj.currently.apparentTemperature);
                 }
                 if (property === "dewPoint") {
-                    weatherData.currently.dewPoint = conversionFunction(weatherData.currently.dewPoint);
+                    weatherDataObj.currently.dewPoint = conversionFunction(weatherDataObj.currently.dewPoint);
                 }
             }
-            weatherData.hourly.data.forEach(hour => {
+            weatherDataObj.hourly.data.forEach(hour => {
                 for (let property in hour) {
                     if (property === "temperature") {
                         hour.temperature = conversionFunction(hour.temperature);
@@ -347,7 +346,7 @@ export function convertUnits(unit, currentSpeedUnit, state) {
                     }
                 }
             });
-            weatherData.daily.data.forEach(day => {
+            weatherDataObj.daily.data.forEach(day => {
                 for (let property in day) {
                     if (property === "temperatureHigh") {
                         day.temperatureHigh = conversionFunction(day.temperatureHigh);
@@ -382,18 +381,18 @@ export function convertUnits(unit, currentSpeedUnit, state) {
         case "km/h":
         case "mph":
         case "m/s":
-            for (let property in weatherData.currently) {
-                if (property === "windSpeed") {
-                    weatherData.currently.windSpeed = conversionFunction(weatherData.currently.windSpeed);
+        for (let property in weatherDataObj.currently) {
+            if (property === "windSpeed") {
+                    weatherDataObj.currently.windSpeed = conversionFunction(weatherDataObj.currently.windSpeed);
                 }
                 if (property === "windGust") {
-                    weatherData.currently.windGust = conversionFunction(weatherData.currently.windGust);
+                    weatherDataObj.currently.windGust = conversionFunction(weatherDataObj.currently.windGust);
                 }
                 if (property === "visibility") {
-                    weatherData.currently.visibility = conversionFunction(weatherData.currently.visibility);
+                    weatherDataObj.currently.visibility = conversionFunction(weatherDataObj.currently.visibility);
                 }
             }
-            weatherData.hourly.data.forEach(hour => {
+            weatherDataObj.hourly.data.forEach(hour => {
                 for (let property in hour) {
                     if (property === "windSpeed") {
                         hour.windSpeed = conversionFunction(hour.windSpeed);
@@ -406,7 +405,7 @@ export function convertUnits(unit, currentSpeedUnit, state) {
                     }
                 }
             });
-            weatherData.daily.data.forEach(day => {
+            weatherDataObj.daily.data.forEach(day => {
                 for (let property in day) {
                     if (property === "windSpeed") {
                         day.windSpeed = conversionFunction(day.windSpeed);
@@ -422,19 +421,19 @@ export function convertUnits(unit, currentSpeedUnit, state) {
             break;
         case "mm":
         case "inch":
-            for (let property in weatherData.currently) {
+            for (let property in weatherDataObj.currently) {
                 if (property === "precipIntensity") {
-                    weatherData.currently.precipIntensity = conversionFunction(weatherData.currently.precipIntensity);
+                    weatherDataObj.currently.precipIntensity = conversionFunction(weatherDataObj.currently.precipIntensity);
                 }
             }
-            weatherData.hourly.data.forEach(hour => {
+            weatherDataObj.hourly.data.forEach(hour => {
                 for (let property in hour) {
                     if (property === "precipIntensity") {
                         hour.precipIntensity = conversionFunction(hour.precipIntensity);
                     }
                 }
             });
-            weatherData.daily.data.forEach(day => {
+            weatherDataObj.daily.data.forEach(day => {
                 for (let property in day) {
                     if (property === "precipIntensity") {
                         day.precipIntensity = conversionFunction(day.precipIntensity);
@@ -448,7 +447,7 @@ export function convertUnits(unit, currentSpeedUnit, state) {
         default: 
             console.error('Unit converting function error');
     }
-    return weatherData;
+    return weatherDataObj;
 }
 
 export function dissectGeoResponse (response) {

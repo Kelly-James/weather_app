@@ -38,13 +38,48 @@ class App extends Component {
         amountSmall: null
       }
     },
-    weatherData: null
+    weatherData: null,
+    convertedWeatherData: null
     // weatherData: response
   };
 
   componentDidMount() {
     console.log("App Mounted..");
     this.autoLoadData();
+  }
+
+  // Please refactor this disgusting mess..
+  setUserUI = currentUnits => {
+    let currentSpeedUnitButton = null;
+    switch(true) {
+      case currentUnits.speed === "m/s":
+        currentSpeedUnitButton = document.querySelector("#ms");
+        currentSpeedUnitButton.disabled = true;
+        break;
+      case currentUnits.speed === "km/h":
+        currentSpeedUnitButton = document.querySelector("#km");
+        currentSpeedUnitButton.disabled = true;
+        break;
+      case currentUnits.speed === "mph":
+        currentSpeedUnitButton = document.querySelector("#mph");
+        currentSpeedUnitButton.disabled = true;
+        break;
+      default:
+      console.log('Speed Units UI Function Issue');
+    }
+    let currentTempUnitButton = null;
+    switch(true) {
+      case currentUnits.temperature === "C":
+        currentTempUnitButton = document.querySelector("#c");
+        currentTempUnitButton.disabled = true;
+        break;
+      case currentUnits.temperature === "F":
+        currentTempUnitButton = document.querySelector("#f");
+        currentTempUnitButton.disabled = true;
+        break;
+      default:
+        console.log('Temp Units UI Function Issue');
+    }
   }
 
   // Get user location data ( longitude, latitude ) and set user location state object
@@ -132,14 +167,21 @@ class App extends Component {
     weatherData = responseTempVariants;
     let userPrefs = { ...this.state.userPrefs };
     userPrefs = setUserPrefsAuto(response);
-    this.setState({ weatherData, userPrefs });
+    this.setState({ weatherData, userPrefs }, () => {
+      this.setUserUI(this.state.userPrefs.units);
+    });
   };
 
   handleConvertUnits = unit => {
-    let weatherData = { ...this.state.weatherData };
-    let currentUnitSpeed = this.state.userPrefs.units.speed;
-    weatherData = convertUnits(unit, currentUnitSpeed, weatherData);
-
+    let weatherDataState = { ...this.state.weatherData };
+    let requestedCurrentUnit = null;
+    if(unit === "c" || unit === "f") {
+      requestedCurrentUnit = this.state.userPrefs.units.temperature;
+    } else {
+      requestedCurrentUnit = this.state.userPrefs.units.speed;
+    }
+    let weatherData = convertUnits(unit, requestedCurrentUnit, weatherDataState);
+    
     let userPrefs = updateUserPrefs(unit, this.state.userPrefs)
 
     this.setState({ weatherData, userPrefs });
@@ -152,7 +194,7 @@ class App extends Component {
         </div>
         <div className="appContainer">
           <WeatherContainer fetchGeoLocation={this.fetchGeoLocation} locInfo={this.state.locInfo} userPrefs={this.state.userPrefs} weatherData={this.state.weatherData} />
-          <Menu handleConvertUnits={this.handleConvertUnits} weatherData={this.state.weatherData} />
+          <Menu handleConvertUnits={this.handleConvertUnits} weatherData={this.state.weatherData} userPrefs={this.state.userPrefs} />
         </div>
       </div>;
   }
