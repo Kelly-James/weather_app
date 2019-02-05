@@ -14,7 +14,7 @@ import {
 
 import '../css/App.css';
 
-import response from '../data/response.json';
+// import response from '../data/response.json';
 
 const apiKey = require("../keys/api-key.json");
 
@@ -37,13 +37,13 @@ class App extends Component {
         amountSmall: null
       }
     },
-    // weatherData: null,
-    weatherData: response
+    weatherData: null,
+    // weatherData: response
   };
 
   componentDidMount() {
     console.log("App Mounted..");
-    // this.autoLoadData();
+    this.autoLoadData();
   }
 
   // Please refactor this disgusting mess..

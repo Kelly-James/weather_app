@@ -15,7 +15,7 @@ class Forecast extends React.Component {
               <button>Weekend</button>
             </div>
             <div className="forecastGridContainer">
-                <ForecastWeek daily={this.props.weatherData.daily} />
+                <ForecastWeek weatherData={this.props.weatherData} />
             </div>
           </div>
         );

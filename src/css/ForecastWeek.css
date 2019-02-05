@@ -17,30 +17,34 @@
     width: 100%;
 }
 
-.monday {
+.iconCell {
+    display: inline-block;
+}
+
+.first {
     grid-area: a
 }
 
-.tuesday {
+.second {
     grid-area: b
 }
 
-.wednesday {
+.third {
     grid-area: c
 }
 
-.thursday {
+.fourth {
     grid-area: d
 }
 
-.friday {
+.fifth {
     grid-area: e
 }
 
-.saturday {
+.sixth {
     grid-area: f
 }
 
-.sunday {
+.seventh {
     grid-area: g
 }

@@ -473,6 +473,21 @@ export function dissectGeoResponse (response) {
     return geoObject
 }
 
+// Sorts the days of the week, based off of a given day integer
+export function sortDays(dayInt) {
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    if (dayInt > 6) {
+        console.error('sortDays is borken! startDay was too big -> ', dayInt + ' ..borken..');
+        return;
+    }
+    let spliceDays = [];
+    for (let i = 0; i < dayInt + 1; i++) {
+        spliceDays.push(days.shift());
+    }
+    let shiftedDays = days.concat(spliceDays);
+    return shiftedDays;
+}
+
 // Get user coordinates and location info
 export function getUserCoordinates() {
     let options = { enableHighAccuracy: true };
