@@ -4,32 +4,13 @@ i {
     top: 10%;
 }
 
-.loading {
-    border-radius: 25%;
-    color: rgba(186, 230, 250, 0.818);
-    display: inline;
-    left: calc(50% - 2em);
-    position: relative;
-    top: calc(50% - 2em);
-    width: 2em;
-}
-
 .cellText {
     display: inline-block;
     margin: 10px;
     position: relative;
-    /* top: 20%; */
 }
 
-.currentDetailsContainer {
-    height: 45px;
-    margin: 2px;
-    padding: 0px;
-    width: 100%;
-}
-
-.currentWeatherMainContainer {
-    /* height: 190px; */
+.container {
     margin: 2px;
     padding: 0px;
     width: 100%;
@@ -40,17 +21,19 @@ i {
     border-right: 1px solid rgba(186, 230, 250, 0.818);
     height: 90%;
     margin: 0 20% 0 20%;
-    /* left: 10px; */
     padding: 20px;
     position: fixed;
     top: 45px;
     width: 60%;
 }
 
-.weatherHeaderContainer {
-    background-color: rgb(201, 201, 201, 0.5);
-    height: 35px;
-    margin: 2px;
-    padding: 0px;
-    width: 100%;
+.loading {
+    border-radius: 25%;
+    color: rgba(186, 230, 250, 0.818);
+    display: inline;
+    left: calc(50% - 2em);
+    position: relative;
+    top: calc(50% - 2em);
+    width: 2em;
 }
+

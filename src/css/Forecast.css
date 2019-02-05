@@ -1,0 +1,9 @@
+.forecast {
+    background-color: rgb(255, 255, 255);
+    height: inherit;
+    width: inherit;
+}
+
+.forecastHeader {
+    color: rgb(40, 44, 52);
+}

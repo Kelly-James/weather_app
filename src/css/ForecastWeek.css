@@ -1,0 +1,46 @@
+.cell {
+    display: inline-block;
+}
+
+.forecastWeekGrid {
+    display: grid;
+    grid-template-areas: 
+        "a b c d e f g";
+    grid-template-columns: auto;
+    height: inherit;
+    width: 100%;
+}
+
+.weekSummary {
+    display: inline-block;
+    margin: 10px;
+    width: 100%;
+}
+
+.monday {
+    grid-area: a
+}
+
+.tuesday {
+    grid-area: b
+}
+
+.wednesday {
+    grid-area: c
+}
+
+.thursday {
+    grid-area: d
+}
+
+.friday {
+    grid-area: e
+}
+
+.saturday {
+    grid-area: f
+}
+
+.sunday {
+    grid-area: g
+}

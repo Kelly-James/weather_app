@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import update from "immutability-helper";
 import Menu from './Menu';
 import Nav from './Nav';
 import WeatherContainer from './WeatherContainer';
@@ -15,7 +14,7 @@ import {
 
 import '../css/App.css';
 
-// import response from '../data/response.json';
+import response from '../data/response.json';
 
 const apiKey = require("../keys/api-key.json");
 
@@ -38,13 +37,13 @@ class App extends Component {
         amountSmall: null
       }
     },
-    weatherData: null,
-    // weatherData: response
+    // weatherData: null,
+    weatherData: response
   };
 
   componentDidMount() {
     console.log("App Mounted..");
-    this.autoLoadData();
+    // this.autoLoadData();
   }
 
   // Please refactor this disgusting mess..
@@ -192,8 +191,8 @@ class App extends Component {
           <Nav toggleMenu={toggleMenu} />
         </div>
         <div className="appContainer">
-          <WeatherContainer fetchGeoLocation={this.fetchGeoLocation} locInfo={this.state.locInfo} userPrefs={this.state.userPrefs} weatherData={this.state.weatherData} />
           <Menu handleConvertUnits={this.handleConvertUnits} weatherData={this.state.weatherData} userPrefs={this.state.userPrefs} />
+          <WeatherContainer fetchGeoLocation={this.fetchGeoLocation} locInfo={this.state.locInfo} userPrefs={this.state.userPrefs} weatherData={this.state.weatherData} />
         </div>
       </div>;
   }

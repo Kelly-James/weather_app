@@ -1,6 +1,7 @@
 import React from 'react';
 import CurrentDetails from './CurrentDetails';
 import CurrentWeather from './CurrentWeather';
+import Forecast from "./Forecast";
 import WeatherHeader from './WeatherHeader';
 import { convertTimestamp, getCardinalDirection, measurementConverter } from '../helpers';
 
@@ -17,17 +18,29 @@ class WeatherContainer extends React.Component {
     if (!this.props.weatherData) {
       return <h1 className="loading">Loading Data...</h1>;
     }
-    return <div id="weatherFrame" className="frame">
-        <div className="weatherHeaderContainer">
-          <WeatherHeader currentWeather={this.props.weatherData.currently} locInfo={this.props.locInfo} fetchGeoLocation={this.props.fetchGeoLocation}/>
+    return (
+      <div id="weatherFrame" className="frame">
+        <div className="weatherHeaderContainer container">
+          <WeatherHeader
+            currentWeather={this.props.weatherData.currently}
+            locInfo={this.props.locInfo}
+            fetchGeoLocation={this.props.fetchGeoLocation}
+          />
         </div>
-        <div className="currentDetailsContainer">
-          <CurrentDetails currentWeather={this.props.weatherData.currently} userPrefs={this.props.userPrefs} />
+        <div className="currentDetailsContainer container">
+          <CurrentDetails
+            currentWeather={this.props.weatherData.currently}
+            userPrefs={this.props.userPrefs}
+          />
         </div>
-        <div className="currentWeatherMainContainer">
+        <div className="currentWeatherMainContainer container">
           <CurrentWeather weatherData={this.props.weatherData} />
         </div>
-      </div>;
+        <div className="forecastContainer container">
+          <Forecast weatherData={this.props.weatherData}/>
+        </div>
+      </div>
+    );
   }
 }
 
