@@ -7,3 +7,18 @@
 .forecastHeader {
     color: rgb(40, 44, 52);
 }
+
+.forecastLegend {
+    position: relative;
+    left: -10%;
+    top: -170px;
+}
+
+.legendCell {
+    background-color: rgb(14, 177, 252);
+    color: rgb(186, 230, 250);
+    display: block;
+    margin: 1px;
+    padding: 2px;
+    width: 85px;
+}

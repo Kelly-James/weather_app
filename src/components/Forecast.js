@@ -16,6 +16,15 @@ class Forecast extends React.Component {
             </div>
             <div className="forecastGridContainer">
                 <ForecastWeek weatherData={this.props.weatherData} />
+                <div className="forecastLegend">
+                    <div className="highTemp legendCell">highTemp</div>
+                    <div className="lowTemp legendCell">lowTemp</div>
+                    <div className="precipProb legendCell">precipProb</div>
+                    <div className="humidity legendCell">humidity</div>
+                    <div className="windSpeed legendCell">windSpeed</div>
+                    <div className="windGust legendCell">windGust</div>
+                    <div className="ozone legendCell">ozone</div>
+                </div>
             </div>
           </div>
         );

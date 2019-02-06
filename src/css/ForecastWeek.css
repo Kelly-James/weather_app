@@ -1,5 +1,12 @@
-.cell {
-    display: inline-block;
+.columnContainer { 
+    border-left: 0.25px dotted rgb(0, 0, 0);
+    border-right: 0.25px dotted rgb(0, 0, 0);
+}
+
+.forecastCell {
+    display: block;
+    margin: 1px;
+    padding: 2px;
 }
 
 .forecastWeekGrid {
@@ -8,6 +15,7 @@
         "a b c d e f g";
     grid-template-columns: auto;
     height: inherit;
+    text-align: center;
     width: 100%;
 }
 
@@ -15,10 +23,6 @@
     display: inline-block;
     margin: 10px;
     width: 100%;
-}
-
-.iconCell {
-    display: inline-block;
 }
 
 .first {
