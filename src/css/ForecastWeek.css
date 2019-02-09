@@ -1,11 +1,11 @@
-.columnContainer { 
+.weekDay { 
     border-left: 0.25px dotted rgb(0, 0, 0);
     border-right: 0.25px dotted rgb(0, 0, 0);
 }
 
 .forecastCell {
     display: block;
-    margin: 1px;
+    margin: 1px 0;
     padding: 2px;
 }
 
@@ -25,30 +25,30 @@
     width: 100%;
 }
 
-.first {
+.day0 {
     grid-area: a
 }
 
-.second {
+.day1 {
     grid-area: b
 }
 
-.third {
+.day2 {
     grid-area: c
 }
 
-.fourth {
+.day3 {
     grid-area: d
 }
 
-.fifth {
+.day4 {
     grid-area: e
 }
 
-.sixth {
+.day5 {
     grid-area: f
 }
 
-.seventh {
+.day6 {
     grid-area: g
 }

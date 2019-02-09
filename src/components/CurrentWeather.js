@@ -22,23 +22,23 @@ class CurrentWeather extends React.Component {
               </div>
               <div className="tempCell">
                 <p className="temperature">
-                  {this.props.weatherData.currently.temperature}&deg;
+                  {Math.round(this.props.weatherData.currently.temperature)}&deg;
                 </p>
                 <p className="apparentTemp tempVar">
                   Feels like{" "}
-                  {this.props.weatherData.currently.apparentTemperature}&deg;
+                  {Math.round(this.props.weatherData.currently.apparentTemperature)}&deg;
                 </p>
               </div>
               <div className="tempVarCell">
                 <ul className="tempList">
                   <li className="tempVariantHigh tempVar">
                     High:{" "}
-                    {this.props.weatherData.currently.temperatureVariants.high}
+                    {Math.round(this.props.weatherData.currently.temperatureVariants.high)}
                     &deg;
                   </li>
                   <li className="tempVariantLow tempVar">
                     Low:{" "}
-                    {this.props.weatherData.currently.temperatureVariants.low}
+                    {Math.round(this.props.weatherData.currently.temperatureVariants.low)}
                     &deg;
                   </li>
                 </ul>

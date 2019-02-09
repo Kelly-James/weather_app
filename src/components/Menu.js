@@ -4,27 +4,40 @@ import "../css/Menu.css";
 
 class Menu extends React.Component {
 
-  componentDidMount() {
-
+  componentWillReceiveProps(nextProps) {
+    this.toggleBtn(nextProps);
   }
 
   // Disable clicked button and reenable the previously clicked button
   handleOnClick = event => {
-    let currentSpeedUnits = Array.from(document.querySelectorAll(".speed"));
-    let currentTempUnits = Array.from(document.querySelectorAll(".temp"));
+    let speedButtons = Array.from(document.querySelectorAll(".speed"));
+    let tempButtons = Array.from(document.querySelectorAll(".temp"));
     let clickedButton = document.querySelector("#" + event.target.id);
     if(clickedButton.classList.contains('speed')) {
-      currentSpeedUnits.forEach(element => {
+      speedButtons.forEach(element => {
         element.disabled = false;
       });
     } else if (clickedButton.classList.contains('temp')) {
-      currentTempUnits.forEach(element => {
+      tempButtons.forEach(element => {
         element.disabled = false;
       });
     }
     clickedButton.disabled = true;
     let unit = event.target.value;
     this.props.handleConvertUnits(unit);
+  }
+
+  toggleBtn = (props) => {
+    let measureButtons = Array.from(document.querySelectorAll(".measure"));
+    let speed = props.userPrefs.units.speed;
+    let temp = props.userPrefs.units.temperature;
+    measureButtons.forEach(btn => {
+      if(btn.innerHTML === speed || btn.innerHTML === temp) {
+        btn.disabled = true;
+      } else {
+        btn.disabled = false;
+      }
+    })
   }
 
   render() {

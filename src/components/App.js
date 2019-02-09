@@ -179,9 +179,7 @@ class App extends Component {
       requestedCurrentUnit = this.state.userPrefs.units.speed;
     }
     let weatherData = convertUnits(unit, requestedCurrentUnit, weatherDataState);
-    
     let userPrefs = updateUserPrefs(unit, this.state.userPrefs)
-
     this.setState({ weatherData, userPrefs });
   }
 
