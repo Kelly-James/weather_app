@@ -30,7 +30,7 @@ class WeatherContainer extends React.Component {
         <div className="currentDetailsContainer container">
           <CurrentDetails
             currentWeather={this.props.weatherData.currently}
-            userPrefs={this.props.userPrefs}
+            ui={this.props.ui}
           />
         </div>
         <div className="currentWeatherMainContainer container">

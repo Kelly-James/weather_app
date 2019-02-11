@@ -29,8 +29,8 @@ class Menu extends React.Component {
 
   toggleBtn = (props) => {
     let measureButtons = Array.from(document.querySelectorAll(".measure"));
-    let speed = props.userPrefs.units.speed;
-    let temp = props.userPrefs.units.temperature;
+    let speed = props.ui.units.speed;
+    let temp = props.ui.units.temperature;
     measureButtons.forEach(btn => {
       if(btn.innerHTML === speed || btn.innerHTML === temp) {
         btn.disabled = true;

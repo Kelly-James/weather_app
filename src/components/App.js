@@ -10,7 +10,8 @@ import {
   setUserPrefsAuto,
   tempVariants,
   toggleMenu,
-  updateUserPrefs
+  updateUserPrefs,
+  setUserUI
 } from "../helpers";
 
 import '../css/App.css';
@@ -30,7 +31,7 @@ class App extends Component {
       provName: null,
       timezone: null
     },
-    userPrefs: {
+    ui: {
       units: {
         speed: null,
         temperature: null,
@@ -45,40 +46,6 @@ class App extends Component {
   componentDidMount() {
     console.log("App Mounted..");
     this.autoLoadData();
-  }
-
-  // Please refactor this disgusting mess..
-  setUserUI = currentUnits => {
-    let currentSpeedUnitButton = null;
-    switch(true) {
-      case currentUnits.speed === "m/s":
-        currentSpeedUnitButton = document.querySelector("#ms");
-        currentSpeedUnitButton.disabled = true;
-        break;
-      case currentUnits.speed === "km/h":
-        currentSpeedUnitButton = document.querySelector("#km");
-        currentSpeedUnitButton.disabled = true;
-        break;
-      case currentUnits.speed === "mph":
-        currentSpeedUnitButton = document.querySelector("#mph");
-        currentSpeedUnitButton.disabled = true;
-        break;
-      default:
-      console.log('Speed Units UI Function Issue');
-    }
-    let currentTempUnitButton = null;
-    switch(true) {
-      case currentUnits.temperature === "C":
-        currentTempUnitButton = document.querySelector("#c");
-        currentTempUnitButton.disabled = true;
-        break;
-      case currentUnits.temperature === "F":
-        currentTempUnitButton = document.querySelector("#f");
-        currentTempUnitButton.disabled = true;
-        break;
-      default:
-        console.log('Temp Units UI Function Issue');
-    }
   }
 
   // Get user location data ( longitude, latitude ) and set user location state object
@@ -164,10 +131,10 @@ class App extends Component {
     let weatherData = { ...this.state.weatherData };
     let responseTempVariants = tempVariants(response, convertTimestamp);
     weatherData = responseTempVariants;
-    let userPrefs = { ...this.state.userPrefs };
-    userPrefs = setUserPrefsAuto(response);
-    this.setState({ weatherData, userPrefs }, () => {
-      this.setUserUI(this.state.userPrefs.units);
+    let ui = { ...this.state.ui };
+    ui = setUserPrefsAuto(response);
+    this.setState({ weatherData, ui }, () => {
+      setUserUI(this.state.ui.units);
     });
   };
 
@@ -175,13 +142,13 @@ class App extends Component {
     let weatherDataState = { ...this.state.weatherData };
     let requestedCurrentUnit = null;
     if(unit === "c" || unit === "f") {
-      requestedCurrentUnit = this.state.userPrefs.units.temperature;
+      requestedCurrentUnit = this.state.ui.units.temperature;
     } else {
-      requestedCurrentUnit = this.state.userPrefs.units.speed;
+      requestedCurrentUnit = this.state.ui.units.speed;
     }
     let weatherData = convertUnits(unit, requestedCurrentUnit, weatherDataState);
-    let userPrefs = updateUserPrefs(unit, this.state.userPrefs)
-    this.setState({ weatherData, userPrefs });
+    let ui = updateUserPrefs(unit, this.state.ui)
+    this.setState({ weatherData, ui });
   }
 
   render() {
@@ -190,8 +157,8 @@ class App extends Component {
           <Nav toggleMenu={toggleMenu} />
         </div>
         <div className="appContainer">
-          <Menu handleConvertUnits={this.handleConvertUnits} weatherData={this.state.weatherData} userPrefs={this.state.userPrefs} />
-          <WeatherContainer fetchGeoLocation={this.fetchGeoLocation} locInfo={this.state.locInfo} userPrefs={this.state.userPrefs} weatherData={this.state.weatherData} />
+          <Menu handleConvertUnits={this.handleConvertUnits} weatherData={this.state.weatherData} ui={this.state.ui} />
+          <WeatherContainer fetchGeoLocation={this.fetchGeoLocation} locInfo={this.state.locInfo} ui={this.state.ui} weatherData={this.state.weatherData} />
         </div>
         <div className="footerContainer">
           <Footer />

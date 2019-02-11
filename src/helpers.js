@@ -488,6 +488,40 @@ export function sortDays(dayInt) {
     return shiftedDays;
 }
 
+// Please refactor this disgusting mess..
+export function setUserUI(currentUnits) {
+        let currentSpeedUnitButton = null;
+        switch (true) {
+            case currentUnits.speed === "m/s":
+                currentSpeedUnitButton = document.querySelector("#ms");
+                currentSpeedUnitButton.disabled = true;
+                break;
+            case currentUnits.speed === "km/h":
+                currentSpeedUnitButton = document.querySelector("#km");
+                currentSpeedUnitButton.disabled = true;
+                break;
+            case currentUnits.speed === "mph":
+                currentSpeedUnitButton = document.querySelector("#mph");
+                currentSpeedUnitButton.disabled = true;
+                break;
+            default:
+                console.log('Speed Units UI Function Issue');
+        }
+        let currentTempUnitButton = null;
+        switch (true) {
+            case currentUnits.temperature === "C":
+                currentTempUnitButton = document.querySelector("#c");
+                currentTempUnitButton.disabled = true;
+                break;
+            case currentUnits.temperature === "F":
+                currentTempUnitButton = document.querySelector("#f");
+                currentTempUnitButton.disabled = true;
+                break;
+            default:
+                console.log('Temp Units UI Function Issue');
+        }
+    }
+
 // Get user coordinates and location info
 export function getUserCoordinates() {
     let options = { enableHighAccuracy: true };

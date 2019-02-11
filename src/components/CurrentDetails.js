@@ -10,7 +10,7 @@ class CurrentDetails extends React.Component {
                 <div className="weatherBarGrid">
                     <div className="windCell weatherWidget">
                         <p className="cellText measurement">
-                            Wind: {Math.round(this.props.currentWeather.windSpeed)} {this.props.userPrefs.units.speed}
+                            Wind: {Math.round(this.props.currentWeather.windSpeed)} {this.props.ui.units.speed}
                         </p>
                         <i className={`wi wi-wind from-${this.props.currentWeather.windBearing}-deg`} />
                         <p className="cardinalDirection cellText">

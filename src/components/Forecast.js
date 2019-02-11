@@ -11,10 +11,10 @@ class Forecast extends React.Component {
             <h2 className="forecastHeader">Forecast</h2>
           </div>
             <div className="forecastMenu">
-              <button className="forecastButton">Hourly</button>
               <button className="forecastButton">7 Day</button>
-              <button className="forecastButton">36 Hour</button>
-              <button className="forecastButton">Weekend</button>
+              <button className="forecastButton">48 Hour</button>
+              {/* <button className="forecastButton">36 Hour</button> */}
+              {/* <button className="forecastButton">Weekend</button> */}
             </div>
             <div className="forecastGridContainer">
                 <ForecastWeek weatherData={this.props.weatherData} />
