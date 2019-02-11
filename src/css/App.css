@@ -1,5 +1,6 @@
 body {
   background-color: rgb(40, 44, 52);
+  overflow: hidden;
 }
 
 html {
@@ -27,8 +28,17 @@ html {
   width: 100%;
 }
 
+.footerContainer {
+  border-top: solid 5px rgba(186, 230, 250, 0.818);
+  bottom: 0;
+  display: block;
+  height: 17px;
+  left: 0;
+  position: fixed;
+  width: 100%;
+}
+
 .navContainer {
-    /* color: rgba(186, 230, 250, 0.818); */
     border-bottom: solid 10px rgba(186, 230, 250, 0.818);
     display: block;
     height: 35px;

@@ -6,7 +6,9 @@ class WeatherHeader extends React.Component {
 
     handleFetchWeather = () => {
         let cityString = document.getElementById("locationSearch").value;
-        this.props.fetchGeoLocation(cityString);
+        if(cityString) {
+            this.props.fetchGeoLocation(cityString);
+        }
     };
 
     handleUserInput = () => {

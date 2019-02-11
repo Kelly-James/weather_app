@@ -7,12 +7,14 @@ class Forecast extends React.Component {
     render() {
         return (
           <div className="forecast">
+          <div className="forecastHeaderContainer">
             <h2 className="forecastHeader">Forecast</h2>
-            <div className="forecaastMenu">
-              <button>Hourly</button>
-              <button>7 Day</button>
-              <button>36 Hour</button>
-              <button>Weekend</button>
+          </div>
+            <div className="forecastMenu">
+              <button className="forecastButton">Hourly</button>
+              <button className="forecastButton">7 Day</button>
+              <button className="forecastButton">36 Hour</button>
+              <button className="forecastButton">Weekend</button>
             </div>
             <div className="forecastGridContainer">
                 <ForecastWeek weatherData={this.props.weatherData} />

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Footer from './Footer';
 import Menu from './Menu';
 import Nav from './Nav';
 import WeatherContainer from './WeatherContainer';
@@ -191,6 +192,9 @@ class App extends Component {
         <div className="appContainer">
           <Menu handleConvertUnits={this.handleConvertUnits} weatherData={this.state.weatherData} userPrefs={this.state.userPrefs} />
           <WeatherContainer fetchGeoLocation={this.fetchGeoLocation} locInfo={this.state.locInfo} userPrefs={this.state.userPrefs} weatherData={this.state.weatherData} />
+        </div>
+        <div className="footerContainer">
+          <Footer />
         </div>
       </div>;
   }

@@ -4,14 +4,36 @@
     width: inherit;
 }
 
+.forecastButton {
+    background-color: rgb(201, 201, 201);
+    border: none;
+    color: rgb(0, 0 ,0);
+    font-size: 1em;
+    margin: 2px;
+    text-decoration: none;
+}
+
+.forecastButton:hover {
+    color: rgb(14, 177, 252);
+}
+
 .forecastHeader {
     color: rgb(40, 44, 52);
+}
+
+.forecastHeaderContainer {
+    background-color: rgb(135, 135, 135);
+    width: 100%
 }
 
 .forecastLegend {
     position: relative;
     left: -10%;
     top: -176px;
+}
+
+.forecastMenu {
+    background-color: rgb(201, 201, 201);
 }
 
 .legendCell {

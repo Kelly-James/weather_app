@@ -1,6 +1,8 @@
 .measure {
+    background-color: rgb(131, 131, 131);
     border: none;
     display: block;
+    font-size: 1em;
     height: 30px;
     margin: 10px;
     text-decoration: none;
@@ -8,12 +10,16 @@
 }
 
 .measure:disabled {
-    border: 2px solid red;
-    /* border-bottom: solid 1px rgb(255, 255, 0); */
+    border-bottom: solid 1px rgb(255, 255, 0);
     color: rgb(0, 0, 255);
 }
 
+.measure:hover {
+    color: rgb(14, 177, 252);
+}
+
 .menuContainer {
+    background-color: rgb(131, 131, 131);
     color: rgba(186, 230, 250, 0.818);
     right: 0;
     max-height: 50%;
@@ -22,7 +28,7 @@
     transition-duration: .5s;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-    top: 40px;
+    top: 35px;
 }
 
 .menuContainer.closed {

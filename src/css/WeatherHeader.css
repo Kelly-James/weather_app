@@ -16,7 +16,7 @@
 }
 
 .searchButton {
-    background-color: rgb(201, 201, 201, 0.5);
+    background-color: rgb(201, 201, 201);
     border: none;
     cursor: pointer;
     margin: 0 5px;
@@ -26,7 +26,7 @@
 }
 
 .weatherHeader {
-    background-color: rgb(201, 201, 201, 0.5);
+    background-color: rgb(135, 135, 135);
     height: 35px;
     width: inherit;
 }
