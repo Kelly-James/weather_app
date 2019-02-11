@@ -134,43 +134,41 @@ export function getCardinalDirection (windBearing) {
 
 export function setUserPrefsAuto (response) {
     let unitFlag = response.flags.units;
-    let userPrefs = {
-        units: {
+    let units = {
             speed: null,
             temperature: null,
             amountLarge: null,
             amountSmall: null
-        }
     }
     switch (unitFlag) {
         case "us":
-            userPrefs.units.speed = 'mph';
-            userPrefs.units.temperature = "F";
-            userPrefs.units.amountLarge = "mi";
-            userPrefs.units.amountSmall = "in";
+            units.speed = 'mph';
+            units.temperature = "F";
+            units.amountLarge = "mi";
+            units.amountSmall = "in";
             break;
         case "ca":
-            userPrefs.units.speed = 'km/h';
-            userPrefs.units.temperature = "C";
-            userPrefs.units.amountLarge = "km";
-            userPrefs.units.amountSmall = "mm";
+            units.speed = 'km/h';
+            units.temperature = "C";
+            units.amountLarge = "km";
+            units.amountSmall = "mm";
             break;
         case "si":
-            userPrefs.units.speed = 'm/s';
-            userPrefs.units.temperature = "C";
-            userPrefs.units.amountLarge = "km";
-            userPrefs.units.amountSmall = "mm";
+            units.speed = 'm/s';
+            units.temperature = "C";
+            units.amountLarge = "km";
+            units.amountSmall = "mm";
             break;
         case "uk2":
-            userPrefs.units.speed = 'mph';
-            userPrefs.units.temperature = "C";
-            userPrefs.units.amountLarge = "mi";
-            userPrefs.units.amountSmall = "mm";
+            units.speed = 'mph';
+            units.temperature = "C";
+            units.amountLarge = "mi";
+            units.amountSmall = "mm";
             break;
         default:
             console.error('Check setUserPrefsAuto function, it could be broken..');
     }
-    return userPrefs;
+    return units;
 }
 
 export function updateUserPrefs(unit, userPrefs) {
@@ -222,6 +220,40 @@ export function updateUserPrefs(unit, userPrefs) {
             console.error('Check setUserPrefsManual function, it could be broken..');
     }
     return updatedPrefs;
+}
+
+// Please refactor this disgusting mess..
+export function setUserUI(currentUnits) {
+    let currentSpeedUnitButton = null;
+    switch (true) {
+        case currentUnits.speed === "m/s":
+            currentSpeedUnitButton = document.querySelector("#ms");
+            currentSpeedUnitButton.disabled = true;
+            break;
+        case currentUnits.speed === "km/h":
+            currentSpeedUnitButton = document.querySelector("#km");
+            currentSpeedUnitButton.disabled = true;
+            break;
+        case currentUnits.speed === "mph":
+            currentSpeedUnitButton = document.querySelector("#mph");
+            currentSpeedUnitButton.disabled = true;
+            break;
+        default:
+            console.log('Speed Units UI Function Issue');
+    }
+    let currentTempUnitButton = null;
+    switch (true) {
+        case currentUnits.temperature === "C":
+            currentTempUnitButton = document.querySelector("#c");
+            currentTempUnitButton.disabled = true;
+            break;
+        case currentUnits.temperature === "F":
+            currentTempUnitButton = document.querySelector("#f");
+            currentTempUnitButton.disabled = true;
+            break;
+        default:
+            console.log('Temp Units UI Function Issue');
+    }
 }
 
 // Unit conversion functions
@@ -487,40 +519,6 @@ export function sortDays(dayInt) {
     let shiftedDays = days.concat(spliceDays);
     return shiftedDays;
 }
-
-// Please refactor this disgusting mess..
-export function setUserUI(currentUnits) {
-        let currentSpeedUnitButton = null;
-        switch (true) {
-            case currentUnits.speed === "m/s":
-                currentSpeedUnitButton = document.querySelector("#ms");
-                currentSpeedUnitButton.disabled = true;
-                break;
-            case currentUnits.speed === "km/h":
-                currentSpeedUnitButton = document.querySelector("#km");
-                currentSpeedUnitButton.disabled = true;
-                break;
-            case currentUnits.speed === "mph":
-                currentSpeedUnitButton = document.querySelector("#mph");
-                currentSpeedUnitButton.disabled = true;
-                break;
-            default:
-                console.log('Speed Units UI Function Issue');
-        }
-        let currentTempUnitButton = null;
-        switch (true) {
-            case currentUnits.temperature === "C":
-                currentTempUnitButton = document.querySelector("#c");
-                currentTempUnitButton.disabled = true;
-                break;
-            case currentUnits.temperature === "F":
-                currentTempUnitButton = document.querySelector("#f");
-                currentTempUnitButton.disabled = true;
-                break;
-            default:
-                console.log('Temp Units UI Function Issue');
-        }
-    }
 
 // Get user coordinates and location info
 export function getUserCoordinates() {

@@ -132,7 +132,7 @@ class App extends Component {
     let responseTempVariants = tempVariants(response, convertTimestamp);
     weatherData = responseTempVariants;
     let ui = { ...this.state.ui };
-    ui = setUserPrefsAuto(response);
+    ui.units = setUserPrefsAuto(response);
     this.setState({ weatherData, ui }, () => {
       setUserUI(this.state.ui.units);
     });

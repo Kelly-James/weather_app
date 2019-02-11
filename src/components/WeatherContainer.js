@@ -37,7 +37,7 @@ class WeatherContainer extends React.Component {
           <CurrentWeather weatherData={this.props.weatherData} />
         </div>
         <div className="forecastContainer container">
-          <Forecast weatherData={this.props.weatherData}/>
+          <Forecast weatherData={this.props.weatherData} ui={this.props.ui}/>
         </div>
       </div>
     );
