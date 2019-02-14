@@ -1,12 +1,12 @@
 h2 {
-    color: rgba(186, 230, 250, 0.818);
+    color: rgb(186, 230, 250);
     display: inline-block;
     line-height: 17px;
     margin: 10px;
 }
 
 .nav {
-    background: rgba(14, 177, 252, 0.818);
+    background: rgb(14, 177, 252);
     display: block;
     height: 35px;
     position: fixed;
@@ -15,7 +15,7 @@ h2 {
 }
 
 .menuBtnFrame {
-    background: rgba(75, 133, 160, 0.818);
+    background: rgb(75, 133, 160);
     max-height: 25px;
     min-height: 25px;
     max-width: 25px; 
@@ -26,12 +26,12 @@ h2 {
 }
 
 .menuBtnFrame:hover {
-    background: rgba(186, 230, 250, 0.818);
+    background: rgb(186, 230, 250);
     cursor: pointer;
 }
 
 .menuBtnLine {
-    background: rgba(186, 230, 250, 0.818);
+    background: rgb(186, 230, 250);
     min-height: 2px;
     margin: 4px;
     position: absolute;
@@ -39,7 +39,7 @@ h2 {
 }
 
 .menuBtnFrame:hover .menuBtnLine {
-    background: rgba(75, 133, 160, 0.818);
+    background: rgb(75, 133, 160);
     cursor: pointer;
 }
 

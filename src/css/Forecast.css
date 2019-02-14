@@ -26,21 +26,21 @@
     width: 100%
 }
 
-.forecastLegend {
+/* .forecastLegend {
     position: relative;
     left: -10%;
     top: -176px;
-}
+} */
 
 .forecastMenu {
     background-color: rgb(201, 201, 201);
 }
 
-.legendCell {
+/* .legendCell {
     background-color: rgb(14, 177, 252);
     color: rgb(186, 230, 250);
     display: block;
     margin: 1px;
     padding: 2px;
     width: 85px;
-}
+} */

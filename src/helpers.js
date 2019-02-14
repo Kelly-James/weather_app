@@ -520,6 +520,78 @@ export function sortDays(dayInt) {
     return shiftedDays;
 }
 
+export function buildGridColumn(i, data) {
+    let column = document.createElement("div");
+    column.className = `column`;
+
+    let iconCell = document.createElement("div");
+    iconCell.className = `wi forecastCell iconCell wi-forecast-io-${
+        data[i + 1].icon
+        }`;
+
+    // Hourly data shows temperature and apparentTemperature. Whereas Daily data show temperature high/low
+    let tempCell1 = document.createElement("div");
+    let tempCell2 = document.createElement("div");
+
+    if(data[i].hasOwnProperty('temperature')) {
+        tempCell1.className = "tempCell1 forecastCell";
+        tempCell1.innerHTML = Math.round(data[
+            i + 1
+        ].temperature);
+
+        tempCell2.className = "tempCell2 forecastCell";
+        tempCell2.innerHTML = Math.round(data[
+            i + 1
+        ].apparentTemperature);
+    } else {
+        tempCell1.className = "tempCell1 forecastCell";
+        tempCell1.innerHTML = Math.round(data[
+            i + 1
+        ].temperatureHigh);
+    
+        tempCell2.className = "tempCell2 forecastCell";
+        tempCell2.innerHTML = Math.round(data[
+            i + 1
+        ].temperatureLow);
+    }
+
+    let precipProbCell = document.createElement("div");
+    precipProbCell.className = "precipProbCell forecastCell";
+    precipProbCell.innerHTML =
+        Math.round(
+            data[i + 1].precipProbability * 10
+        ) + `%`;
+
+    let humidityCell = document.createElement("div");
+    humidityCell.className = "humidityCell forecastCell";
+    humidityCell.innerHTML =
+        Math.round(data[i + 1].humidity * 10) + `%`;
+
+    let windSpeedCell = document.createElement("div");
+    windSpeedCell.className = "windSpeedCell forecastCell";
+    windSpeedCell.innerHTML = Math.round(data[
+        i + 1
+    ].windSpeed);
+
+    let windGustCell = document.createElement("div");
+    windGustCell.className = "windGustCell forecastCell";
+    windGustCell.innerHTML = Math.round(data[i + 1].windGust);
+
+    let ozoneCell = document.createElement("div");
+    ozoneCell.className = "ozoneCell forecastCell";
+    ozoneCell.innerHTML = Math.round(data[i + 1].ozone);
+
+    column.appendChild(iconCell);
+    column.appendChild(tempCell1);
+    column.appendChild(tempCell2);
+    column.appendChild(precipProbCell);
+    column.appendChild(humidityCell);
+    column.appendChild(windSpeedCell);
+    column.appendChild(windGustCell);
+    column.appendChild(ozoneCell);
+    return column;
+};
+
 // Get user coordinates and location info
 export function getUserCoordinates() {
     let options = { enableHighAccuracy: true };

@@ -7,12 +7,13 @@
     display: block;
     margin: 1px 0;
     padding: 2px;
+    font-size: 110%;
 }
 
 .forecastWeekGrid {
     display: grid;
-    grid-template-areas: 
-        "a b c d e f g";
+    /* grid-template-areas: 
+        "a b c d e f g"; */
     grid-template-columns: auto;
     height: inherit;
     text-align: center;
@@ -25,7 +26,7 @@
     width: 100%;
 }
 
-.day0 {
+/* .day0 {
     grid-area: a
 }
 
@@ -51,4 +52,20 @@
 
 .day6 {
     grid-area: g
+} */
+
+.legendCell {
+    background-color: rgb(14, 177, 252);
+    color: rgb(186, 230, 250);
+    display: block;
+    margin: 1px;
+    padding: 2px;
+    width: 85px;
+}
+
+.forecastLegend {
+    display: block;
+    position: relative;
+    left: -10%;
+    top: 100px;
 }
