@@ -520,6 +520,7 @@ export function sortDays(dayInt) {
     return shiftedDays;
 }
 
+// Builds the individual forecast grid columns
 export function buildGridColumn(i, data, header) {
     let column = document.createElement("div");
     column.className = `column`;

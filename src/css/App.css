@@ -39,11 +39,12 @@ html {
 }
 
 .navContainer {
-    border-bottom: solid 2px rgb(186, 230, 250);
+    border-bottom: solid 2px rgb(40, 44, 52);
     display: block;
     height: 35px;
     left: 0;
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 100;
 }

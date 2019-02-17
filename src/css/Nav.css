@@ -1,13 +1,13 @@
 h2 {
-    color: rgb(40, 44, 52);
+    color: rgb(186, 230, 250);
     display: inline-block;
     line-height: 17px;
     margin: 10px;
 }
 
 .nav {
-    /* background: rgb(14, 177, 252); */
-    background: linear-gradient(to right, rgb(186, 230, 250), rgb(40, 44, 52) 35%);
+    background: rgb(40, 44, 52);
+    /* background: linear-gradient(to right, rgb(186, 230, 250), rgb(40, 44, 52) 35%); */
     display: block;
     height: 35px;
     position: fixed;
