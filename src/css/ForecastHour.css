@@ -1,24 +1,19 @@
-.forecastCell {
-    display: block;
-    font-size: 110%;
-    margin: 1px 0;
-    padding: 2px;
-    width: 100px;
-}
-
-.forecastHourGrid {
-    display: grid;
-    /* grid-template-areas: 
-        "a b c d e f g"; */
-    grid-template-columns: auto;
-    height: inherit;
+.forecastGrid {
     overflow: auto;
-    text-align: center;
-    width: 100%;
 }
 
-.hourSummary {
+.scrollBtn {
+    background-color: rgb(201, 201, 201);
+    border: none;
+    color: rgb(0, 0 ,0);
+    font-size: 1em;
+    margin: 2px;
+    text-decoration: none;
+}
+
+.scrollButtonContainer {
     display: inline-block;
+    float: right;
     margin: 10px;
-    width: 100%;
+    position: relative;
 }

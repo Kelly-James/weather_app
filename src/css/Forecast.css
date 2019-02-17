@@ -1,6 +1,19 @@
+.column {
+    width: 110px;
+}
+
+.columnHeader {
+    display: block;
+    font-size: 110%;
+    font-weight: 800;
+    margin-bottom: 8px;
+    padding: 2px;
+    width: 100px
+}
+
 .forecast {
-    background-color: rgb(255, 255, 255);
-    height: inherit;
+    background-color: rgb(40, 44, 52);
+    height: 84%;
     width: inherit;
 }
 
@@ -26,21 +39,53 @@
     width: 100%
 }
 
-/* .forecastLegend {
+.forecastCell {
+    display: block;
+    font-size: 110%;
+    margin: 1px 0;
+    padding: 2px;
+    width: 100px;
+}
+
+.forecastGrid {
+    display: grid;
+    grid-template-columns: auto;
+    text-align: center;
+    width: 100%;
+}
+
+.forecastGridContainer {
+    background-color: rgb(234, 234, 234);
+    height: 68%;
+}
+
+.summaryContainer {
+    background-color: rgb(234, 234, 234);
+}
+
+.forecastSummary {
+    display: inline-block;
+    height: 36px;
+    margin: 10px;
+    width: 75%;
+}
+
+.forecastLegend {
     position: relative;
     left: -10%;
-    top: -176px;
-} */
+    top: -172px;
+}
 
 .forecastMenu {
     background-color: rgb(201, 201, 201);
+    margin: 2px 0;
 }
 
-/* .legendCell {
-    background-color: rgb(14, 177, 252);
+.legendCell {
+    background-color: rgb(40, 44, 52);
     color: rgb(186, 230, 250);
     display: block;
-    margin: 1px;
+    margin: 2px;
     padding: 2px;
     width: 85px;
-} */
+}

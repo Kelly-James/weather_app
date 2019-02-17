@@ -10,6 +10,7 @@
 .searchContainer {
     display: inline-block;
     position: relative;
+    float: right;
     right: 0;
     top: 5px;
 }

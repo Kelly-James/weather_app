@@ -3,7 +3,6 @@ import CurrentDetails from './CurrentDetails';
 import CurrentWeather from './CurrentWeather';
 import Forecast from "./Forecast";
 import WeatherHeader from './WeatherHeader';
-import { convertTimestamp, getCardinalDirection, measurementConverter } from '../helpers';
 
 import '../css/WeatherContainer.css';
 import '../css/weather-icons.css';

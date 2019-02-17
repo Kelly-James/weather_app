@@ -1,12 +1,13 @@
 h2 {
-    color: rgb(186, 230, 250);
+    color: rgb(40, 44, 52);
     display: inline-block;
     line-height: 17px;
     margin: 10px;
 }
 
 .nav {
-    background: rgb(14, 177, 252);
+    /* background: rgb(14, 177, 252); */
+    background: linear-gradient(to right, rgb(186, 230, 250), rgb(40, 44, 52) 35%);
     display: block;
     height: 35px;
     position: fixed;
@@ -15,7 +16,7 @@ h2 {
 }
 
 .menuBtnFrame {
-    background: rgb(75, 133, 160);
+    background: rgb(40, 44, 52);
     max-height: 25px;
     min-height: 25px;
     max-width: 25px; 

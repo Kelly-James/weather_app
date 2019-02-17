@@ -520,9 +520,15 @@ export function sortDays(dayInt) {
     return shiftedDays;
 }
 
-export function buildGridColumn(i, data) {
+export function buildGridColumn(i, data, header) {
     let column = document.createElement("div");
     column.className = `column`;
+    column.style.gridColumn = i + 1;
+
+    let columnHeader = document.createElement('div');
+    columnHeader.className = 'columnHeader';
+    columnHeader.style.gridColumn = i + 1;
+    columnHeader.innerHTML = header;
 
     let iconCell = document.createElement("div");
     iconCell.className = `wi forecastCell iconCell wi-forecast-io-${
@@ -535,24 +541,24 @@ export function buildGridColumn(i, data) {
 
     if(data[i].hasOwnProperty('temperature')) {
         tempCell1.className = "tempCell1 forecastCell";
-        tempCell1.innerHTML = Math.round(data[
+        tempCell1.innerHTML = `${Math.round(data[
             i + 1
-        ].temperature);
+        ].temperature)} &deg`;
 
         tempCell2.className = "tempCell2 forecastCell";
-        tempCell2.innerHTML = Math.round(data[
+        tempCell2.innerHTML = `${Math.round(data[
             i + 1
-        ].apparentTemperature);
+        ].apparentTemperature)} &deg`;
     } else {
         tempCell1.className = "tempCell1 forecastCell";
-        tempCell1.innerHTML = Math.round(data[
+        tempCell1.innerHTML = `${Math.round(data[
             i + 1
-        ].temperatureHigh);
+        ].temperatureHigh)} &deg`;
     
         tempCell2.className = "tempCell2 forecastCell";
-        tempCell2.innerHTML = Math.round(data[
+        tempCell2.innerHTML = `${Math.round(data[
             i + 1
-        ].temperatureLow);
+        ].temperatureLow)} &deg`;
     }
 
     let precipProbCell = document.createElement("div");
@@ -581,6 +587,7 @@ export function buildGridColumn(i, data) {
     ozoneCell.className = "ozoneCell forecastCell";
     ozoneCell.innerHTML = Math.round(data[i + 1].ozone);
 
+    column.appendChild(columnHeader);
     column.appendChild(iconCell);
     column.appendChild(tempCell1);
     column.appendChild(tempCell2);
@@ -591,6 +598,16 @@ export function buildGridColumn(i, data) {
     column.appendChild(ozoneCell);
     return column;
 };
+
+// Clear forecast grid before rerender
+export function handleClearGrid() {
+    let columns = Array.from(document.querySelectorAll('.forecastCell'));
+    if (columns) {
+        columns.forEach(column => {
+            column.remove();
+        })
+    }
+}
 
 // Get user coordinates and location info
 export function getUserCoordinates() {

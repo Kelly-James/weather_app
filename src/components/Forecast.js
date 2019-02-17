@@ -34,13 +34,19 @@ class Forecast extends React.Component {
 
   render() {
     let forecast;
+    let tempLeg1;
+    let tempLeg2;
 
     switch(true) {
       case this.state.forecast.week:
         forecast = <ForecastWeek weatherData={this.props.weatherData} />;
+        tempLeg1 = <div className="temp1 legendCell">highTemp</div>
+        tempLeg2 = <div className="temp2 legendCell">lowTemp</div>
         break;
       case this.state.forecast.hour:
         forecast = <ForecastHour weatherData={this.props.weatherData} />;
+        tempLeg1 = <div className="temp1 legendCell">Temp</div>
+        tempLeg2 = <div className="temp2 legendCell">ApprntTemp</div>
         break;
       default:
       console.error('Where is the forecast?');
@@ -58,15 +64,15 @@ class Forecast extends React.Component {
           <div className="forecastGridContainer">
             {forecast}
             {/* Rewrite this becuase it is grooossse */}
-            {/* <div className="forecastLegend">
-              <div className="highTemp legendCell">highTemp</div>
-              <div className="lowTemp legendCell">lowTemp</div>
+            <div className="forecastLegend">
+              {tempLeg1}
+              {tempLeg2}
               <div className="precipProb legendCell">precipProb</div>
               <div className="humidity legendCell">humidity</div>
               <div className="windSpeed legendCell">windSpeed</div>
               <div className="windGust legendCell">windGust</div>
               <div className="ozone legendCell">ozone</div>
-            </div> */}
+            </div>
           </div>
         </div>
       );

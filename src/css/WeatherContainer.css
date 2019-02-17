@@ -17,23 +17,30 @@ i {
 }
 
 .frame {
-    border-left: 1px solid rgba(186, 230, 250, 0.818);
-    border-right: 1px solid rgba(186, 230, 250, 0.818);
-    height: 90%;
+    /* background: linear-gradient(rgb(14, 177, 252), rgb(186, 230, 250)); */
+    background-color: rgb(40, 44, 52);
+    border-left: 1px solid rgb(186, 230, 250);
+    border-right: 1px solid rgb(186, 230, 250);
+    height: 100%;
     margin: 0 20% 0 20%;
     padding: 20px;
     position: fixed;
-    top: 45px;
+    top: 35px;
     width: 60%;
 }
 
 .loading {
     border-radius: 25%;
-    color: rgba(186, 230, 250, 0.818);
+    color: rgb(186, 230, 250);
     display: inline;
     left: calc(50% - 2em);
     position: relative;
     top: calc(50% - 2em);
     width: 2em;
 }
+
+.forecastContainer {
+    height: 76%;
+}
+
 
